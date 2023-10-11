@@ -1,0 +1,60 @@
+/* ProfessorCard.css */
+
+.professor-card {
+    border: 0.5px solid #ddd;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0px 29px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    margin-left: 70px;
+    margin-right: 70px;
+  }
+  
+  .professor-card h3 {
+    font-size: 1.4rem;
+    margin: 0;
+    color:rgb(73, 73, 73);
+  }
+  
+  .professor-card p {
+    margin: 5px 0;
+    color: rgb(73, 73, 73);
+    font-weight: 300;
+  }
+
+  .rating-button {
+    display: block;
+    background-color: #007bff; /* Blue color */
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    border-radius: 8px;
+    text-decoration: none; /* Remove underlines for links */
+    font-weight: bold;
+    width: 20%; /* Make it wide */
+    margin-top: 10px;
+    margin-left: 79%;
+  }
+  .rate-button{
+    display:block;
+    background-color: #ff5900; /* Blue color */
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    border-radius: 8px;
+    text-decoration: none; /* Remove underlines for links */
+    font-weight: bold;
+    width: 20%; /* Make it wide */
+    margin-top: -40px;
+    margin-left: 57%;
+
+  }
+  
+  .rating-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+  }
+  .rate-button:hover{
+    background:#ec590a ;/* Red */
+  }
+  

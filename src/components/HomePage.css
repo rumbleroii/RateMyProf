@@ -1,0 +1,78 @@
+/* HomePage.css */
+.homepage {
+    padding-left: 0px;
+    padding-right: 0px;
+    font-family:'Rubik', sans-serif;
+  }
+  .h1{
+    margin-left: 20px;
+    font-family: 'Pixelify Sans', sans-serif;
+  }
+  .nit-title{
+    size: 900px;
+    align-items: center;
+    text-align: center;
+    font-size: 5.5em;
+    color: #007bff;
+  }
+  .search-bar-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-right: 70px; /* Adds spacing below the search bar */
+    margin-top: 20px;
+  }
+  
+  /* Styling for the search label */
+  .search-bar-container label {
+    margin-right: 10px;
+  }
+  
+  /* Styling for the search input */
+  .search-bar {
+    padding: 9px;
+    border: 1px solid #999999;
+    border-radius: 8px;
+    width: 400px;
+    font-size: 14px;
+    outline: none; /* Removes the input box shadow when clicked */
+  }
+  
+  .dropdown-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 35px;
+    margin-top: -45px;
+  }
+  
+  label {
+    font-weight: 100;
+
+  }
+  
+  /* Modern styling for the dropdown menu */
+  .modern-dropdown {
+    appearance: none;
+    background-color: transparent;
+    border: 1px solid #007bff;
+    padding: 10px;
+    width: 100%;
+    max-width: 300px;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #007bff;
+    outline: none;
+    cursor: pointer;
+  }
+  
+  .modern-dropdown option {
+    color: #333;
+    background-color: white;
+  }
+  
+  .modern-dropdown:hover,
+  .modern-dropdown:focus {
+    background-color: #f0f0f0;
+  }
+  

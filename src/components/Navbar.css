@@ -1,0 +1,32 @@
+/* Styling for the Navbar */
+.navbar {
+    background-color: #0073e6; /* Blue background color */
+    color: #fff; /* White text color */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    width: 100%vh;
+  }
+  
+  .selected-department {
+    margin-left: 70px; /* Adjust the margin as needed */
+    color: rgb(73,73,73);
+  }
+  /* Styling for the Navbar title */
+  .navbar-title {
+    margin: 0;
+    font-size: 24px;
+    padding-left: 20px;
+    text-decoration: none;
+    color: #fff;
+  }
+  
+  /* Styling for the Navbar links */
+  .navbar-links a {
+    text-decoration: none;
+    color: #fff; /* White link color */
+    margin-right: 20px;
+    font-size: 18px;
+  }
+  
