@@ -19,7 +19,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    margin-right: 70px; /* Adds spacing below the search bar */
+    margin-right: 70px; 
     margin-top: 20px;
   }
   
@@ -35,7 +35,7 @@
     border-radius: 8px;
     width: 400px;
     font-size: 14px;
-    outline: none; /* Removes the input box shadow when clicked */
+    outline: none; 
   }
   
   .dropdown-container {

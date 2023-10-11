@@ -4,10 +4,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh; /* Ensure the container covers the entire viewport height */
-    background-color: rgb(240, 240, 240); /* White background color */
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); /* Add a subtle box shadow */
+    min-height: 100vh; 
+    background-color: rgb(240, 240, 240); 
+    border-radius: 10px; 
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); 
   }
   .login-page {
       display: flex;
@@ -68,7 +68,7 @@
       margin-top: 10px;
     }
     
-    /* Style the "Sign Up" link */
+    
     p a {
       color: #007bff;
       text-decoration: none;
