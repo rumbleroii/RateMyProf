@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './ProfessorCard.css'; // Import the CSS file for styling
-
+import './ProfessorCard.css'; 
 function ProfessorCard({ name, department, email, phoneNumber }) {
   return (
     <div className="professor-card">
