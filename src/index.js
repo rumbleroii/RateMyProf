@@ -2,7 +2,19 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import { initializeApp } from "firebase/app";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAIc4h-T2yDWjhOmlyPSBf69GV8CwaRLDY",
+  authDomain: "ig-rmp.firebaseapp.com",
+  projectId: "ig-rmp",
+  storageBucket: "ig-rmp.appspot.com",
+  messagingSenderId: "817408427902",
+  appId: "1:817408427902:web:e7d4e3a5e3c857e735952f"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -11,7 +23,4 @@ root.render(
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+

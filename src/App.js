@@ -6,17 +6,20 @@ import LoginPage from './components/LoginPage';
 import RegisterPage from './components/RagisterPage';
 import ProfessorDetailPage from './components/ProfessorRating';
 import RatingPage from './components/RatingPage';
+import RatePage from './components/RatePage';
 
 function App() {
   return (
     <Router>
+      
       <Switch>
         <Route exact path="/" component={LoginPage} />
         <Route path="/homepage" component={HomePage} />
         <Route path="/register" component={RegisterPage} />
-        <Route path="/professor/:id" component={ProfessorDetailPage} />
+        <Route path="/" component={ProfessorDetailPage} />
         <Route path="/rate/:id" component={RatingPage} />
       </Switch>
+      
     </Router>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ProfessorCard from './ProfessorCard';
 import Navbar from './Navbar';
 import './HomePage.css';
@@ -6,23 +6,75 @@ import './HomePage.css';
 function HomePage() {
     const [selectedDepartment, setSelectedDepartment] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
-
-
-  // Function to handle department selection
+    const [loading, setLoading] = useState(true);
+    const [professors, setProfessors] = useState('');
+    const [page, setPage] = useState(1);
+    const limit = 20;
+    const lastDocument = useRef(null);
+  
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          setLoading(true);
+          const response = await fetch(
+            `https://firestore.googleapis.com/v1/projects/ig-rmp/databases/(default)/documents/professors`,
+            {
+              method: 'GET',
+              headers: {
+                Accept: 'application/json',
+              },
+            }
+          );
+  
+          if (!response.ok) {
+            throw new Error(`Error fetching data: ${response.status}`);
+          }
+  
+          const data = await response.json();
+  
+          if (data.documents) {
+            const professorData = data.documents.map((doc) => doc.fields);
+            lastDocument.current = data.documents[data.documents.length - 1].name;
+            setProfessors((prevProfessors) => [...prevProfessors, ...professorData]);
+          } else {
+            console.error('API response has an unexpected format:', data);
+          }
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        } finally {
+          setLoading(false);
+        }
+      };
+  
+      fetchData();
+    }, [page]); 
+  
+    const loadMore = () => {
+      setPage((prevPage) => prevPage + 1);
+    };
   const handleDepartmentChange = (e) => {
     setSelectedDepartment(e.target.value);
   };
-
-  const handleSearch = (e) => {
-    setSearchTerm(e.target.value);
+  const handleSearch = () => {
+    const filteredProfessors = professors.filter((professorData) =>
+      professorData.name.stringValue.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setProfessors(filteredProfessors);
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+  
+  /*
   const professorData = {
     name: 'KRK',
     department: selectedDepartment || 'Computer Science',
     email: 'johndoe@professor.nitw.ac.in',
     phoneNumber: '123-456-7890',
-};
+}; */
   return (
     
     <div className='homepage'>
@@ -59,24 +111,37 @@ function HomePage() {
           id="search"
           name="search"
           value={searchTerm}
-          onChange={handleSearch}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          onKeyPress={handleKeyPress} 
           placeholder="Search professor by name"
           className="search-bar"
         />
+        
       </div>
 
       {selectedDepartment && (
   <h1 className="selected-department"> {selectedDepartment}</h1>
 )}
-
-      <ProfessorCard {...professorData} />
-      <ProfessorCard {...professorData} />
-      <ProfessorCard {...professorData} />
-      <ProfessorCard {...professorData} />
-      <ProfessorCard {...professorData} />
-      <ProfessorCard {...professorData} />
-      <ProfessorCard {...professorData} />
       
+      {Array.isArray(professors) ? (
+  professors.map((professorData, index) => (
+    <ProfessorCard
+    key={index}
+    name={professorData.name.stringValue || 'No Name'}
+    department={professorData.department.stringValue || 'No Department'}
+    email={professorData.email.stringValue || 'No Email'}
+    phoneNumber={professorData.phone_numbers.arrayValue.values[0].stringValue || 'No Phone Number'}
+  />
+    
+  ))
+) : (
+  <p>No professors found or an error occurred.</p>
+)}
+      {!loading && (
+          <button onClick={loadMore} disabled={!lastDocument.current}>
+            Load More
+          </button>
+        )}
 
       {/* Other content of your homepage */}
     </div>
