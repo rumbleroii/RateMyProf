@@ -20,8 +20,11 @@
       max-width: 20%;
       border-radius: 10%;
       padding: 5%;
+      font-family:'Rubik', sans-serif;
     }
-    
+    h1{
+      color:#007bff
+    }
     h2 {
       font-size: 24px;
       margin-bottom: 20px;
@@ -58,6 +61,7 @@
       padding: 10px 20px;
       font-size: 16px;
       cursor: pointer;
+      margin-left: 10px;
     }
     
     .center-button:hover {
@@ -76,5 +80,23 @@
     
     p a:hover {
       text-decoration: underline;
+    }
+    .google-signin-button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #ff0044;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      margin-top: 10px;
+      margin-left: 10px;
+      width: 300px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .google-signin-button:hover {
+      background-color:#cc0039 ;
     }
     

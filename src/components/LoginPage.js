@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { getAuth, OAuthProvider, signInWithPopup } from "firebase/auth";
+import "./LoginPage.css";
 import { Link } from 'react-router-dom';
-import './LoginPage.css';
 
-function LoginPage() {
-  
+
+const GoogleAuth = () => {
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -13,11 +15,37 @@ function LoginPage() {
     
     setPassword('');
   };
+  const auth = getAuth();
+
+  const signInWithGoogle = async () => {
+    const provider = new OAuthProvider("google.com");
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = auth.currentUser;
+      if (user) {
+        const email = user.email;
+        if (email && email.endsWith("@student.nitw.ac.in")) {
+          try {
+            const idToken = await user.getIdToken();
+            console.log("User ID token:", idToken);
+            localStorage.setItem("userToken", idToken);
+          } catch (error) {
+            console.error("Error getting ID token:", error);
+          }
+        } else {
+          console.error("Email address is not allowed for registration.");
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
-    <div className='login-container'>
-        <div className="login-page">
-      <h1>Login</h1>
+    <div className="login-container">
+      <div className="login-page">
+      <h1>RateMyProf</h1>
+      <h2>Login</h2>
       <form onSubmit={handleLogin}>
         <div className="form-group">
           <label>Email:</label>
@@ -45,10 +73,10 @@ function LoginPage() {
       </form>
       <p>Don't have an account? <Link to="/register">Sign Up</Link></p>
       {/* Add the "Sign Up" link that redirects to the registration page */}
+        <button onClick={signInWithGoogle}>Sign in with Google</button>
+      </div>
     </div>
-    </div>
-    
   );
-}
+};
 
-export default LoginPage;
+export default GoogleAuth;

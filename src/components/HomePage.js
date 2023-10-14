@@ -17,11 +17,12 @@ function HomePage() {
         try {
           setLoading(true);
           const response = await fetch(
-            `https://firestore.googleapis.com/v1/projects/ig-rmp/databases/(default)/documents/professors`,
+            `${process.env.REACT_APP_API_ID}/getProfessors`,
             {
               method: 'GET',
               headers: {
                 Accept: 'application/json',
+                Authorization: `Bearer ${localStorage.getItem("userToken")}`
               },
             }
           );
@@ -48,7 +49,7 @@ function HomePage() {
   
       fetchData();
     }, [page]); 
-  
+    console.log(process.env.REACT_APP_API_ID);
     const loadMore = () => {
       setPage((prevPage) => prevPage + 1);
     };
