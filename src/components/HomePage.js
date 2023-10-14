@@ -31,11 +31,11 @@ function HomePage() {
             throw new Error(`Error fetching data: ${response.status}`);
           }
   
-          const data = await response.json();
-  
-          if (data.documents) {
-            const professorData = data.documents.map((doc) => doc.fields);
-            lastDocument.current = data.documents[data.documents.length - 1].name;
+          let data = await response.json();
+          if (Array.isArray(data.list)) {
+            const professorData = data.list;
+            lastDocument.current = professorData[professorData.length - 1].name;
+            console.log(professorData)
             setProfessors((prevProfessors) => [...prevProfessors, ...professorData]);
           } else {
             console.error('API response has an unexpected format:', data);
@@ -128,10 +128,10 @@ function HomePage() {
   professors.map((professorData, index) => (
     <ProfessorCard
     key={index}
-    name={professorData.name.stringValue || 'No Name'}
-    department={professorData.department.stringValue || 'No Department'}
-    email={professorData.email.stringValue || 'No Email'}
-    phoneNumber={professorData.phone_numbers.arrayValue.values[0].stringValue || 'No Phone Number'}
+    name={professorData.name && professorData.name ? professorData.name: 'No Name'}
+    department={professorData.department && professorData.department ? professorData.department : 'No Department'}
+    email={professorData.email && professorData.email ? professorData.email : 'No Email'}
+    phoneNumber={(professorData.phone_numbers && professorData.phone_numbers.values[0] && professorData.phone_numbers.values[0]) ? professorData.phone_numbers.values[0].stringValue : 'No Phone Number'}
   />
     
   ))

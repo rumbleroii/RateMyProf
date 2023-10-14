@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { getAuth, OAuthProvider, signInWithPopup } from "firebase/auth";
 import "./LoginPage.css";
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 
 const GoogleAuth = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const history = useHistory();
 
   
   const handleLogin = (e) => {
@@ -29,6 +31,7 @@ const GoogleAuth = () => {
             const idToken = await user.getIdToken();
             console.log("User ID token:", idToken);
             localStorage.setItem("userToken", idToken);
+            history.push("/HomePage");
           } catch (error) {
             console.error("Error getting ID token:", error);
           }
@@ -70,10 +73,11 @@ const GoogleAuth = () => {
         <Link to="/HomePage" className='center-button'>
             Login
         </Link>
+        {errorMessage && <div className="error-message">{errorMessage}</div>}
       </form>
       <p>Don't have an account? <Link to="/register">Sign Up</Link></p>
       {/* Add the "Sign Up" link that redirects to the registration page */}
-        <button onClick={signInWithGoogle}>Sign in with Google</button>
+        <button onClick={signInWithGoogle} class="google-sign-in">Sign in with Google</button>
       </div>
     </div>
   );

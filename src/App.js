@@ -11,6 +11,7 @@ import RatingPage from './components/RatingPage';
 import RatePage from './components/RatePage';
 import firebaseConfig from './components/firebaseconfig';
 
+console.log(firebaseConfig)
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app); 
 
@@ -22,7 +23,7 @@ function App() {
         <Route exact path="/" component={LoginPage} />
         <Route path="/homepage" component={HomePage} />
         <Route path="/register" component={RegisterPage} />
-        <Route path="/" component={ProfessorDetailPage} />
+        <Route path="/professor/:id" component={ProfessorDetailPage} />
         <Route path="/rate/:id" component={RatingPage} />
       </Switch>
       
