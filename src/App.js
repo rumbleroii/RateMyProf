@@ -1,5 +1,7 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, } from 'react-router-dom';
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 
 import HomePage from './components/HomePage';
 import LoginPage from './components/LoginPage';
@@ -7,6 +9,10 @@ import RegisterPage from './components/RagisterPage';
 import ProfessorDetailPage from './components/ProfessorRating';
 import RatingPage from './components/RatingPage';
 import RatePage from './components/RatePage';
+import firebaseConfig from './components/firebaseconfig';
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app); 
 
 function App() {
   return (
