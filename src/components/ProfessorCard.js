@@ -10,9 +10,6 @@ function ProfessorCard({ name, department, email, phoneNumber }) {
       <p>Email: {email}</p>
       <p>Phone Number: {phoneNumber}</p>
 
-      <Link to={`/rating/${encodeURIComponent(name)}`} className="rating-button">
-        View Rating
-      </Link>
       <Link to="/RatePage" className="rate-button">
         Rate
       </Link>

@@ -1,0 +1,65 @@
+/* ProfilePage.css */
+
+.profile-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #f0f0f0; /* Background color for the page */
+    font-family: 'Rubik', sans-serif;
+  }
+  
+  .profile-picture {
+    text-align: center;
+  }
+  
+  .profile-picture img {
+    width: 100px; /* Adjust the image size as needed */
+    height: 100px;
+    border-radius: 50%; /* Makes the image round */
+  }
+  
+  .edit-icon {
+    color: #007bff; /* Color for the "Edit" text, you can adjust it */
+    cursor: pointer;
+    text-decoration: underline;
+    margin-top: 5px;
+    display: block;
+  }
+  
+  .profile-form {
+    margin-left: 20px; /* Adjust the spacing between the picture and form */
+  }
+  
+  label {
+    font-weight: bold;
+  }
+  
+  input,
+  select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  /* Add more styling as needed */
+  
+  /* Media query for responsiveness, adjust as needed */
+  @media (max-width: 768px) {
+    .profile-page {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .profile-picture {
+      margin-bottom: 20px;
+    }
+  
+    .profile-form {
+      margin-left: 0;
+    }
+  }
+  

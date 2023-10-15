@@ -57,9 +57,11 @@ function HomePage() {
     setSelectedDepartment(e.target.value);
   };
   const handleSearch = () => {
-    const filteredProfessors = professors.filter((professorData) =>
-      professorData.name.stringValue.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const filteredProfessors = professors.filter((professorData) =>{
+      const professorName = professorData.name?.stringValue || ''; 
+      return professorName.toLowerCase().includes(searchTerm.toLowerCase());
+    });
+    
     setProfessors(filteredProfessors);
   };
 
