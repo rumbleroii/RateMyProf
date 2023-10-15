@@ -9,7 +9,7 @@ function Navbar() {
         RateMyProf
       </h1>
       <div className="navbar-links">
-        <Link to="/">Home</Link>
+        <Link to="/homepage">Home</Link>
         <Link to="/profile">User Profile</Link>
       </div>
     </div>

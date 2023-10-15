@@ -1,14 +1,5 @@
 /* LoginPage.css */
 
-.login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh; 
-    background-color: rgb(240, 240, 240); 
-    border-radius: 10px; 
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); 
-  }
   .login-page {
       display: flex;
       flex-direction: column;
@@ -23,76 +14,52 @@
       font-family:'Rubik', sans-serif;
     }
     
-    h2 {
-      font-size: 24px;
-      margin-bottom: 20px;
+    p{
+      font-size: 20px;
+      font-weight: 200;
     }
-    
-    .form-group {
-      margin-bottom: 20px;
-      width: 100%;
-    }
-    
-    label {
-      display: block;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-    
-    input[type="email"],
-    input[type="password"] {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 16px;
-    }
-    
-    .center-button {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    
-    .center-button:hover {
-      background-color: #0056b3;
-    }
-    
-    p {
-      margin-top: 10px;
-    }
-    
-    
-    p a {
-      color: #007bff;
-      text-decoration: none;
-    }
-    
-    p a:hover {
-      text-decoration: underline;
-    }
+
     
     .google-sign-in{
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       background-color: #007bff;
       color: white;
       border: none;
-      border-radius: 5px;
+      border-radius: 10px;
       padding: 10px 20px;
       font-size: 16px;
       cursor: pointer;
-      width: 200px;
-      margin-left: 10px;
+      width: 300px;
+      height: 50px;
+      margin: 10px;
     }
     .google-sign-in:hover {
       background-color: #0056b3;
     }
+    .blue-background {
+      flex: 1;
+      background-color: #007bff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    
+    .rate-my-prof-title {
+      color: white;
+      font-size: 4.5rem;
+      font-family:'Rubik', sans-serif;
+    }
+    
+    .google-button-container {
+      flex: 1;
+      flex-direction: column;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+

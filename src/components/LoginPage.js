@@ -46,38 +46,18 @@ const GoogleAuth = () => {
 
   return (
     <div className="login-container">
-      <div className="login-page">
-      <h1>RateMyProf</h1>
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
-        <div className="form-group">
-          <label>Email:</label>
-          <input
-            type="email"
-            placeholder="Enter your gmail"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+      <div className="blue-background">
+        <h1 className="rate-my-prof-title"> RateMyProf <br/>NITW  <p>Empowering students at NITW to have their voices heard, <br/> RateMyProf NITW allows you to rate and review your professors, <br/>fostering an environment of transparency. <br/> <br/> Built by anonymous students from NITW.</p></h1>
+        
+      </div>
+
+      <div className="google-button-container">
+        <button onClick={signInWithGoogle} className="google-sign-in">
+          Sign in with Google
+        </button>
+        <div className="student-mail-para">
+          <p1>Use your student mail only</p1>
         </div>
-        <div className="form-group">
-          <label>Password:</label>
-          <input
-            type="password"
-            placeholder="Enter your password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <Link to="/HomePage" className='center-button'>
-            Login
-        </Link>
-        {errorMessage && <div className="error-message">{errorMessage}</div>}
-      </form>
-      <p>Don't have an account? <Link to="/register">Sign Up</Link></p>
-      {/* Add the "Sign Up" link that redirects to the registration page */}
-        <button onClick={signInWithGoogle} class="google-sign-in">Sign in with Google</button>
       </div>
     </div>
   );
