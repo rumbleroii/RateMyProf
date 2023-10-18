@@ -3,32 +3,65 @@ import Navbar from './Navbar.js';
 import './ProfilePage.css';
 import defaultProfileImage from "../Assets/default-profile-image-url.png";
 
-const branches = ["Branch 1", "Branch 2", "Branch 3", "Branch 4"]; // Replace with your branch options
-const yearsOfStudy = ["1st Year", "2nd Year", "3rd Year", "4th Year"]; // Replace with your year of study options
+const branches = ["Branch 1", "Branch 2", "Branch 3", "Branch 4"]; 
+const yearsOfStudy = ["1st Year", "2nd Year", "3rd Year", "4th Year"]; 
+
 
 const ProfilePage = () => {
-  // Define state variables for first name, last name, selected branch, and selected year
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [selectedBranch, setSelectedBranch] = useState(branches[0]); // Default to the first branch
-  const [selectedYear, setSelectedYear] = useState(yearsOfStudy[0]); // Default to the first year
+  const [selectedBranch, setSelectedBranch] = useState(branches[0]); 
+  const [selectedYear, setSelectedYear] = useState(yearsOfStudy[0]); 
   const [profileImageURL, setProfileImageURL] = useState(defaultProfileImage);
+  const [isEditing, setIsEditing] = useState(false);
 
   const handleEditIconClick = () => {
-    // Trigger the click event of the file input
     document.getElementById("profileImageInput").click();
   };
 
   const handleImageChange = (event) => {
-    // Handle the image selection and update the state
     const selectedImage = URL.createObjectURL(event.target.files[0]);
     setProfileImageURL(selectedImage);
+  };
+
+  const saveProfileData = async () => {
+    const updatedUserData = {
+      firstName,
+      lastName,
+      branch: selectedBranch,
+      yearOfStudy: selectedYear,
+      profileImageURL,
+    };
+
+    try {
+      const response = await fetch('API_ENDPOINT', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedUserData),
+      });
+
+      if (response.ok) {
+        console.log('Profile data saved successfully');
+      } else {
+        console.error('Failed to save profile data:', response.status);
+      }
+    } catch (error) {
+      console.error('Error saving profile data:', error);
+    }
+  };
+
+  const handleSaveButtonClick = () => {
+    saveProfileData();
   };
 
   return (
     <>
     <Navbar />
     <div className="profile-page">
+    
       <div className="profile-picture">
         <img src={profileImageURL} alt="Profile" />
         <span
@@ -84,6 +117,9 @@ const ProfilePage = () => {
         onChange={handleImageChange}
       />
       </div>
+      <button className="save-button" onClick={handleSaveButtonClick}>
+        {isEditing ? "Save" : "Edit"}
+      </button>
     </div>
     </>
   );

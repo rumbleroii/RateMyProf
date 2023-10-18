@@ -17,7 +17,7 @@ function HomePage() {
         try {
           setLoading(true);
           const response = await fetch(
-            `${process.env.REACT_APP_API_ID}/getProfessors`,
+            `${process.env.REACT_APP_API_ID}`,
             {
               method: 'GET',
               headers: {
