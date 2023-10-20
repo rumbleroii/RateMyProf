@@ -7,7 +7,7 @@ import HomePage from './components/HomePage';
 import LoginPage from './components/LoginPage';
 import firebaseConfig from './components/firebaseconfig';
 import ProfilePage from './components/ProfilePage';
-
+import RatePage from './components/RatePage';
 console.log(firebaseConfig)
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app); 
@@ -20,6 +20,7 @@ function App() {
         <Route exact path="/" component={LoginPage} />
         <Route path="/homepage" component={HomePage} />
         <Route path="/profile" component={ProfilePage} />
+        <Route path = '/professor' component = {RatePage} />
       </Switch>
       
     </Router>
