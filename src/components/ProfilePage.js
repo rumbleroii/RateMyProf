@@ -5,7 +5,7 @@ import defaultProfileImage from "../Assets/default-profile-image-url.png";
 import { Button, TextField, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 
-const branches = ["Branch 1", "Branch 2", "Branch 3", "Branch 4"]; 
+const branches = ["CSE", "ECE", "EEE", "MECH", "CIVIL", "BIOTECH", "MME", "MATH", "PHY"]; 
 const yearsOfStudy = ["1st Year", "2nd Year", "3rd Year", "4th Year"]; 
 
 

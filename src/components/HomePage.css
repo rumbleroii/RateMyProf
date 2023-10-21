@@ -4,9 +4,7 @@
     padding-right: 0px;
     font-family:'Rubik', sans-serif;
   }
-  .custom-select {
-    width: 150px; 
-  }
+  
   .h1{
     margin-left: 20px;
     font-family: 'Pixelify Sans', sans-serif;
@@ -23,7 +21,7 @@
     align-items: center;
     justify-content: flex-end;
     margin-right: 70px; 
-    margin-left: 670px;
+    margin-left: 970px;
     margin-top: 20px;
   }
   
@@ -34,48 +32,29 @@
   }
   
   /* Styling for the search input */
-  .search-bar {
-    padding: 9px;
+  .search-bar{
+    padding: 0px;
     border: 1px solid #999999;
     border-radius: 8px;
     width: 400px;
     font-size: 14px;
     outline: none; 
   }
-  
-  .homepage .dropdown-container {
+  .dropdown-container{
+    margin-left: 400px;
+    margin-right: 400px;
+    border-width: 2px;
+  }
+  .dropdown-container .custom-select{
     display: flex;
     flex-direction: column;
     align-items: center;
   }
-  
-    label {
-    font-weight: 100;
 
-  }
+.homepage .dropdown-container label {
+    font-weight: 600;
+
+}
   
-  /* Modern styling for the dropdown menu */
-  .homepage .modern-dropdown .custom-select{
-    appearance: none;
-    background-color: transparent;
-    border: 1px solid #007bff;
-    padding: 10px;
-    width: 100%;
-    max-width: 300px;
-    border-radius: 5px;
-    font-size: 16px;
-    color: #007bff;
-    outline: none;
-    cursor: pointer;
-  }
   
-  .modern-dropdown option {
-    color: #333;
-    background-color: white;
-  }
-  
-  .modern-dropdown:hover,
-  .modern-dropdown:focus {
-    background-color: #f0f0f0;
-  }
   

@@ -28,6 +28,9 @@ function HomePage() {
     const lastDocument = useRef(null);
   
     useEffect(() => {
+      const userToken = localStorage.getItem("userToken");
+console.log("User Token:", userToken);
+
       const fetchData = async () => {
         try {
           setLoading(true);
