@@ -6,7 +6,8 @@ import { Button, Typography, Box, Slider } from "@mui/material";
 import { styled } from "@mui/system";
 import Rating from "@mui/material/Rating";
 import Paper from "@mui/material/Paper";
-
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 const CustomRating = styled(Rating)(({ theme }) => ({
   fontSize: "50px",
   color: "#FFD700",
@@ -80,6 +81,39 @@ const DisabledSlider = styled(Slider)(({ theme }) => ({
 
 const RatePage = () => {
   const [isOpen, setOpen] = useState(false);
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const professorId = searchParams.get("profId");
+  const [professorData, setProfessorData] = useState(null);
+
+  useEffect(() => {
+    const fetchProfessorData = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_API_ID}/professor-get?id=${professorId}`,
+          {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+              Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+            },
+          }
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          setProfessorData(data);
+          console.log("Professor Data:", data);
+        } else {
+          console.error("Failed to fetch professor data");
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchProfessorData();
+  }, [professorId]);
 
   return (
     <div>
@@ -146,7 +180,7 @@ const RatePage = () => {
           backgroundColor: "black",
         }}
       ></div>
-      <CommentSection />
+      <CommentSection professorId={professorId} />
     </div>
   );
 };

@@ -1,9 +1,9 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import './ProfessorCard.css'; 
-import { Button } from '@mui/material';
+import React from "react";
+import { Link } from "react-router-dom";
+import "./ProfessorCard.css";
+import { Button } from "@mui/material";
 
-function ProfessorCard({ name, department, email, phoneNumber }) {
+function ProfessorCard({ name, department, email, phoneNumber, id }) {
   return (
     <div className="professor-card">
       <h3>{name}</h3>
@@ -14,7 +14,7 @@ function ProfessorCard({ name, department, email, phoneNumber }) {
       <Button
         variant="contained"
         component={Link}
-        to="/RatePage"
+        to={`/professor?profId=${id}`}
         className="rate-button"
       >
         Rate
