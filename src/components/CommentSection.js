@@ -5,25 +5,37 @@ import IconButton from "@mui/material/IconButton";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 
-const CommentSection = () => {
-  const [comments, setComments] = useState([
-    {
-      id: 1,
-      username: "User123",
-      text: "This is an example comment text.",
-      likes: 10,
-      dislikes: 3,
-      timestamp: "3 hours ago",
-    },
-    {
-      id: 1,
-      username: "User123",
-      text: "This is an example comment text.",
-      likes: 10,
-      dislikes: 3,
-      timestamp: "3 hours ago",
-    },
-  ]);
+const CommentSection = ({ professorId }) => {
+  const [comments, setComments] = useState([]);
+
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_API_ID}/comments-get?id=${professorId}`,
+          {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+              Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+            },
+          }
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          setComments(data);
+        } else {
+          console.error("Failed to fetch comments");
+        }
+      } catch (error) {
+        console.error("Error fetching comments:", error);
+      }
+    };
+
+    // Fetch comments when the professorId prop changes
+    fetchComments();
+  }, [professorId]);
 
   return (
     <div style={{ width: "80%", margin: "0 auto" }}>

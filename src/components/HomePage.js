@@ -42,6 +42,7 @@ function HomePage() {
         const data = await response.json();
         if (Array.isArray(data.list)) {
           const professorData = data.list;
+          console.log(professorData);
           lastDocument.current = professorData[professorData.length - 1].name;
           setProfessors((prevProfessors) => [
             ...prevProfessors,
@@ -172,6 +173,7 @@ function HomePage() {
         professorsToDisplay.map((professorData, index) => (
           <ProfessorCard
             key={index}
+            id={professorData.id}
             name={
               professorData.name && professorData.name
                 ? professorData.name
