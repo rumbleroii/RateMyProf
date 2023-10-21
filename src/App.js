@@ -19,9 +19,9 @@ function App() {
       <AuthProvider>
         <Switch>
           <Switch>
-            <Route path="/homepage" component={HomePage} />
-            <Route path="/RegisterProfile" component={RegisterProfilePage} />
-            <Route path="/professor" component={RatePage} />
+            <ProtectedRoute path="/homepage" component={HomePage} />
+            <ProtectedRoute path="/RegisterProfile" component={RegisterProfilePage} />
+            <ProtectedRoute path="/professor" component={RatePage} />
             <Route path="/" component={LoginPage} />
           </Switch>
         </Switch>
