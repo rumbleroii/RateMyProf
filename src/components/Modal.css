@@ -1,0 +1,38 @@
+.modalpop {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    width: 800px;
+    height: 660px;
+    padding: 10px;
+}
+
+.close-button {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    cursor: pointer;
+    color: #333;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.slider-container {
+    width: 90%;
+    margin-left: 5%;
+}
+
+.sliders {
+    margin-top : 30px;
+}
