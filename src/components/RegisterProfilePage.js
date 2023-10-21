@@ -12,7 +12,7 @@ import {
 import { styled } from "@mui/system";
 import { useHistory } from "react-router-dom";
 
-const branches = ["CSE", "ECE", "EEE", "CHEM"];
+const branches = ["CSE", "ECE", "EEE", "MECH", "CIVIL", "BIOTECH", "MME", "PHY", "MATH"];
 const yearsOfStudy = ["1st Year", "2nd Year", "3rd Year", "4th Year"];
 
 const CustomTextField = styled(TextField)({

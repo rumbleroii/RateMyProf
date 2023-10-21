@@ -23,38 +23,25 @@
     font-weight: 300;
   }
 
-  .rating-button {
-    display: block;
-    background-color: #007bff; /* Blue color */
-    color: #fff;
-    text-align: center;
-    padding: 10px;
-    border-radius: 8px;
-    text-decoration: none; /* Remove underlines for links */
-    font-weight: bold;
-    width: 20%; /* Make it wide */
-    margin-top: 10px;
-    margin-left: 79%;
-  }
   .professor-card .rate-button{
     display:block;
-    background-color: #ff5900; /* Blue color */
+    background-color: #0073e6; 
     color: #fff;
     text-align: center;
     padding: 10px;
     border-radius: 8px;
-    text-decoration: none; /* Remove underlines for links */
+    text-decoration: none; 
     font-weight: bold;
-    width: 30%; /* Make it wide */
+    width: 30%; 
     margin-top: -40px;
     margin-left: 69%;
 
   }
   
   .rating-button:hover {
-    background-color: #0056b3; /* Darker blue on hover */
+    background-color: #0073e6; /* Darker blue on hover */
   }
   .professor-card .rate-button:hover{
-    background:#ec590a ;/* Red */
+    background-color:#005bb7
   }
   
