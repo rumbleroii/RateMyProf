@@ -55,6 +55,22 @@
     font-weight: 600;
 
 }
+.load-more-button {
+  background-color: #0073e6; 
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  display: block;
+  margin: 0 auto; 
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.load-more-button:hover {
+  background-color: #005bb7; 
+}
   
   
   

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import ProfessorCard from "./ProfessorCard";
 import Navbar from "./Navbar";
 import "./HomePage.css";
+import ComboBox from "./ComboBox";
 
 import {
   Button,
@@ -16,6 +17,8 @@ function HomePage() {
   const [selectedDepartment, setSelectedDepartment] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
+  const [selectedProfessor, setSelectedProfessor] = useState(null);
+  const [filteredProfessors, setFilteredProfessors] = useState([]);
   const [professors, setProfessors] = useState([]);
   const [page, setPage] = useState(1);
   const limit = 20;
@@ -76,6 +79,26 @@ function HomePage() {
     })
     .slice(startIndex, endIndex);
 
+    const filterProfessors = () => {
+      const filtered = professorsToDisplay.filter((professorData) =>
+        professorData.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredProfessors(filtered);
+    };
+  
+    // Event handler for Enter key press
+    const handleEnterKeyPress = (e) => {
+      if (e.key === 'Enter') {
+        filterProfessors();
+      }
+    };
+  
+    // Event handler to select a professor from the ComboBox
+    const handleProfessorSelect = (professor) => {
+      setSelectedProfessor(professor);
+    };
+  
+
   return (
     <div className="homepage">
       <Navbar />
@@ -98,9 +121,48 @@ function HomePage() {
             <MenuItem value="Department of Computer Science and Engineering">
               Computer Science and Engineering (CSE)
             </MenuItem>
+            <MenuItem value="Department of Electronics & communication Engineering">
+              Electronics and Communication Engineering (ECE)
+            </MenuItem>
+            <MenuItem value="Department of Electrical Engineering">
+              Electrical and Electronics Engineering (MECH)
+            </MenuItem>
+            <MenuItem value="Department of Mechanical Engineering">
+              Mechanical Engineering (MECH)
+            </MenuItem>
+            <MenuItem value="Department of Civil Engineering">
+              Civil Engineering (CIVIL)
+            </MenuItem>
+            <MenuItem value="Department of Biotechnology">
+              Biotechnology (BIO)
+            </MenuItem>
+            <MenuItem value="Department of Chemical Engineering">
+              Chemical Engineering (CHEM)
+            </MenuItem>
+            <MenuItem value="Department of Metallurgical & Material Engineering">
+              Metallurgical & Material Engineering (MME)
+            </MenuItem>
+            <MenuItem value="Department of Chemistry">
+              Chemistry (CHEM)
+            </MenuItem>
+            <MenuItem value="Department of Physics">
+              Physics (PHY)
+            </MenuItem>
+            <MenuItem value="Department of Mathematics">
+              Mathematics (MATH)
+            </MenuItem>
+            
+            
+            
           </Select>
         </FormControl>
       </div>
+      
+
+      <ComboBox
+        professorsToDisplay={professorsToDisplay}
+        onProfessorSelect={handleProfessorSelect}
+      />
 
       {selectedDepartment && (
         <h1 className="selected-department"> {selectedDepartment}</h1>
@@ -137,7 +199,7 @@ function HomePage() {
         <p>No professors found or an error occurred.</p>
       )}
       {!loading && (
-        <button onClick={loadMore} disabled={!lastDocument.current}>
+        <button onClick={loadMore} disabled={!lastDocument.current} className="load-more-button">
           Load More
         </button>
       )}
