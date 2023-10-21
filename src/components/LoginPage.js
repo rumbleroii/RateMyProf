@@ -1,35 +1,25 @@
 import React, { useState } from "react";
 import { getAuth, OAuthProvider, signInWithPopup } from "firebase/auth";
 import "./LoginPage.css";
-import { Link, useHistory } from 'react-router-dom';
-
+import { useHistory } from "react-router-dom";
+import { AuthProvider, useAuth } from "../context/AuthContext";
 
 const GoogleAuth = () => {
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const { setUser } = useAuth();
   const history = useHistory();
 
-  
-  const handleLogin = (e) => {
-    e.preventDefault();
-    
-    setPassword('');
-  };
   const auth = getAuth();
 
   const signInWithGoogle = async () => {
-    const provider = new OAuthProvider("google.com");
     try {
+      const provider = new OAuthProvider("google.com");
       const result = await signInWithPopup(auth, provider);
-      const user = auth.currentUser;
+      const user = result.user;
       if (user) {
         const email = user.email;
         if (email && email.endsWith("@student.nitw.ac.in")) {
           try {
             const idToken = await user.getIdToken();
-            console.log("User ID token:", idToken);
             localStorage.setItem("userToken", idToken);
             history.push("/HomePage");
           } catch (error) {
@@ -39,16 +29,27 @@ const GoogleAuth = () => {
           console.error("Email address is not allowed for registration.");
         }
       }
+      setUser(user);
     } catch (error) {
-      console.error(error);
+      console.error("Error signing in with Google:", error);
     }
   };
 
   return (
     <div className="login-container">
       <div className="blue-background">
-        <h1 className="rate-my-prof-title"> RateMyProf <br/>NITW  <p>Empowering students at NITW to have their voices heard, <br/> RateMyProf NITW allows you to rate and review your professors, <br/>fostering an environment of transparency. <br/> <br/> Built by anonymous students from NITW.</p></h1>
-        
+        <h1 className="rate-my-prof-title">
+          {" "}
+          RateMyProf <br />
+          NITW{" "}
+          <p>
+            Empowering students at NITW to have their voices heard, <br />{" "}
+            RateMyProf NITW allows you to rate and review your professors,{" "}
+            <br />
+            fostering an environment of transparency. <br /> <br /> Built by
+            anonymous students from NITW.
+          </p>
+        </h1>
       </div>
 
       <div className="google-button-container">
