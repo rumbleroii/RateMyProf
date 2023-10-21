@@ -10,8 +10,9 @@ import {
   Paper,
 } from "@mui/material";
 import { styled } from "@mui/system";
+import { useHistory } from "react-router-dom";
 
-const branches = ["Branch 1", "Branch 2", "Branch 3", "Branch 4"];
+const branches = ["CSE", "ECE", "EEE", "CHEM"];
 const yearsOfStudy = ["1st Year", "2nd Year", "3rd Year", "4th Year"];
 
 const CustomTextField = styled(TextField)({
@@ -46,30 +47,36 @@ const ButtonContainer = styled("div")({
 });
 
 const RegisterProfilePage = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [name, setName] = useState("");
+  const [rollNumber, setrollNumber] = useState("");
   const [selectedBranch, setSelectedBranch] = useState(branches[0]);
   const [selectedYear, setSelectedYear] = useState(yearsOfStudy[0]);
-
+  const history = useHistory();
   const saveProfileData = async () => {
-    const updatedUserData = {
-      firstName,
-      lastName,
-      branch: selectedBranch,
-      yearOfStudy: selectedYear,
+    const profileData = {
+      name,
+      year: selectedYear,
+      department: selectedBranch,
+      rollNumber,
     };
 
     try {
-      const response = await fetch("API_ENDPOINT", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedUserData),
-      });
-
+      console.log(profileData);
+      const response = await fetch(
+        `${process.env.REACT_APP_API_ID + "profile-register"}`,
+        {
+          method: "POST",
+          headers: {
+            Accept: "*/*",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+          },
+          body: JSON.stringify(profileData),
+        }
+      );
       if (response.ok) {
         console.log("Profile data saved successfully");
+        history.push("/homepage");
       } else {
         console.error("Failed to save profile data:", response.status);
       }
@@ -89,17 +96,17 @@ const RegisterProfilePage = () => {
         <FormPaper>
           <div className="profile-form" style={{ marginTop: "50px" }}>
             <CustomTextField
-              label="First Name"
+              label="Name"
               variant="outlined"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             />
 
             <CustomTextField
-              label="Last Name"
+              label="Roll Number"
               variant="outlined"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
+              value={rollNumber}
+              onChange={(e) => setrollNumber(e.target.value)}
             />
 
             <CustomFormControl variant="outlined">
