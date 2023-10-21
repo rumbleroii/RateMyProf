@@ -3,11 +3,26 @@ import ProfessorCard from './ProfessorCard';
 import Navbar from './Navbar';
 import './HomePage.css';
 
+
+
+import {
+  Button,
+  TextField,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+} from '@mui/material';
+
+
+
 function HomePage() {
+  
     const [selectedDepartment, setSelectedDepartment] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
     const [loading, setLoading] = useState(true);
     const [professors, setProfessors] = useState('');
+    const [filteredProfessors, setFilteredProfessors] = useState([]);
     const [page, setPage] = useState(1);
     const limit = 20;
     const lastDocument = useRef(null);
@@ -26,6 +41,7 @@ function HomePage() {
               },
             }
           );
+          
   
           if (!response.ok) {
             throw new Error(`Error fetching data: ${response.status}`);
@@ -70,6 +86,16 @@ function HomePage() {
       handleSearch();
     }
   };
+
+  const filterProfessors = (searchTerm) => {
+    const filteredProfessors = professors.filter((professorData) => {
+      const professorName = professorData.name?.stringValue || '';
+      return professorName.toLowerCase().includes(searchTerm.toLowerCase());
+    });
+    setFilteredProfessors(filteredProfessors);
+  };
+
+ 
   
   /*
   const professorData = {
@@ -86,39 +112,68 @@ function HomePage() {
       <h1 className='nit-title'>NITW</h1>
       {/* Other content of your homepage */}
       <div className='dropdown-container'>
-        <label htmlFor="department">Department:</label>
-        <select
-          id="department"
-          name="department"
-          value={selectedDepartment}
-          onChange={handleDepartmentChange}
-          className="modern-dropdown"
-        >
-          <option value="">Select a Department</option>
-          <option value="Computer Science and Engineering">Computer Science and Engineering (CSE)</option>
-          <option value="Electronics and Communication Engineering">Electronics and Communication Engineering (ECE)</option>
-          <option value="Electrical and Electronics Engineering">Electrical and Electronics Engineering (EEE)</option>
-          <option value="Mechanical Engineering">Mechanical Engineering (MECH)</option>
-          <option value="Civil Engineering">Civil Engineering (CIVIL)</option>
-          <option value="Biotechnology">Biotechnology (BIOTECH)</option>
-          <option value="Metallurgical and Materials Engineering">Metallurgical and Materials Engineering (MME)</option>
-          <option value="Chemical Engineering">Chemical Engineering (CHEM)</option>
-          <option value="Physics">Physics (PHY)</option>
-          <option value="Maths">Mathematics (MATH)</option>
-        </select>
+      <FormControl variant="outlined" fullWidth>
+          <InputLabel>Select a Department:</InputLabel>
+          
+          <Select
+            id="department"
+            value={selectedDepartment}
+            onChange={handleDepartmentChange}
+            inputProps={{ className: 'custom-select' }}
+          >
+            <MenuItem value="">
+              <em>Select a Department</em>
+            </MenuItem>
+            <MenuItem value="Computer Science and Engineering">
+              Computer Science and Engineering (CSE)
+            </MenuItem>
+            <MenuItem value="Electronics and Communication Engineering">
+              Electronics and Communication Engineering (ECE)
+            </MenuItem>
+            <MenuItem value="Electrical and Electronics Engineering">
+              Electrical and Electronics Engineering (EEE)
+            </MenuItem>
+            <MenuItem value="Mechanical Engineering">
+              Mechanical Engineering (MECH)
+            </MenuItem>
+            <MenuItem value="Civil Engineering">
+              Civil Engineering (CIVIL)
+            </MenuItem>
+            <MenuItem value="Biotechnology">
+              Biotechnology (BIO)
+            </MenuItem>
+            <MenuItem value="Metallurgical and Materials Engineering">
+            Metallurgical and Materials Engineering (MME)
+            </MenuItem>
+            <MenuItem value="Chemical Engineering">
+              Chemical Engineering (CHEM)
+            </MenuItem>
+            <MenuItem value="Maths">
+              Maths (MATH)
+            </MenuItem>
+            <MenuItem value="Physics">
+              Physics (PHY)
+            </MenuItem>
+          </Select>
+        </FormControl>
+        
       </div>
       <div className='search-bar-container'>
-        <label htmlFor="search">Search:</label>
-        <input
-          type="text"
-          id="search"
-          name="search"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          onKeyPress={handleKeyPress} 
-          placeholder="Search professor by name"
-          className="search-bar"
-        />
+      <FormControl variant="outlined" fullWidth>
+          <InputLabel htmlFor="search"></InputLabel>
+          <TextField
+            type="text"
+            id="search"
+            value={searchTerm}
+            onChange={(e) => {
+              const newSearchTerm = e.target.value;
+              setSearchTerm(newSearchTerm);
+              filterProfessors(newSearchTerm);
+            }}
+            onKeyPress={handleKeyPress}
+            placeholder="Search professor by name"
+          />
+        </FormControl>
         
       </div>
 

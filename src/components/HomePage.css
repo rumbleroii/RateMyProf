@@ -4,6 +4,9 @@
     padding-right: 0px;
     font-family:'Rubik', sans-serif;
   }
+  .custom-select {
+    width: 150px; 
+  }
   .h1{
     margin-left: 20px;
     font-family: 'Pixelify Sans', sans-serif;
@@ -15,17 +18,19 @@
     font-size: 5.5em;
     color: #007bff;
   }
-  .search-bar-container {
+  .homepage .search-bar-container {
     display: flex;
     align-items: center;
     justify-content: flex-end;
     margin-right: 70px; 
+    margin-left: 670px;
     margin-top: 20px;
   }
   
   /* Styling for the search label */
   .search-bar-container label {
     margin-right: 10px;
+
   }
   
   /* Styling for the search input */
@@ -38,21 +43,19 @@
     outline: none; 
   }
   
-  .dropdown-container {
+  .homepage .dropdown-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 35px;
-    margin-top: -45px;
   }
   
-  label {
+    label {
     font-weight: 100;
 
   }
   
   /* Modern styling for the dropdown menu */
-  .modern-dropdown {
+  .homepage .modern-dropdown .custom-select{
     appearance: none;
     background-color: transparent;
     border: 1px solid #007bff;

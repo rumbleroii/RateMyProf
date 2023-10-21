@@ -36,7 +36,7 @@
     margin-top: 10px;
     margin-left: 79%;
   }
-  .rate-button{
+  .professor-card .rate-button{
     display:block;
     background-color: #ff5900; /* Blue color */
     color: #fff;
@@ -54,7 +54,7 @@
   .rating-button:hover {
     background-color: #0056b3; /* Darker blue on hover */
   }
-  .rate-button:hover{
+  .professor-card .rate-button:hover{
     background:#ec590a ;/* Red */
   }
   

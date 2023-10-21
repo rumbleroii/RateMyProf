@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './ProfessorCard.css'; 
+import { Button } from '@mui/material';
 
 function ProfessorCard({ name, department, email, phoneNumber }) {
   return (
@@ -10,9 +11,14 @@ function ProfessorCard({ name, department, email, phoneNumber }) {
       <p>Email: {email}</p>
       <p>Phone Number: {phoneNumber}</p>
 
-      <Link to="/RatePage" className="rate-button">
+      <Button
+        variant="contained"
+        component={Link}
+        to="/RatePage"
+        className="rate-button"
+      >
         Rate
-      </Link>
+      </Button>
     </div>
   );
 }

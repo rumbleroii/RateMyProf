@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Navbar from './Navbar.js';
 import './ProfilePage.css';
 import defaultProfileImage from "../Assets/default-profile-image-url.png";
+import { Button, TextField, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
 
 const branches = ["Branch 1", "Branch 2", "Branch 3", "Branch 4"]; 
 const yearsOfStudy = ["1st Year", "2nd Year", "3rd Year", "4th Year"]; 
@@ -72,43 +74,53 @@ const ProfilePage = () => {
       </div>
 
       <div className="profile-form">
-        <label>First Name</label>
-        <input
-          type="text"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-        />
+        <TextField
+            label="First Name"
+            variant="outlined"
+            fullWidth
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            style={{ marginBottom: '16px' }}
+          />
 
-        <label>Last Name</label>
-        <input
-          type="text"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
-        />
+        <TextField
+            label="Last Name"
+            variant="outlined"
+            fullWidth
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            style={{ marginBottom: '16px' }}
+          />
 
-        <label>Branch</label>
-        <select
-          value={selectedBranch}
-          onChange={(e) => setSelectedBranch(e.target.value)}
-        >
-          {branches.map((branch) => (
-            <option key={branch} value={branch}>
-              {branch}
-            </option>
-          ))}
-        </select>
+        <FormControl variant="outlined" fullWidth style={{ marginBottom: '16px' }}>
+            <InputLabel>Branch</InputLabel>
+            <Select
+              value={selectedBranch}
+              onChange={(e) => setSelectedBranch(e.target.value)}
+              label="Branch"
+            >
+              {branches.map((branch) => (
+                <MenuItem key={branch} value={branch}>
+                  {branch}
+                </MenuItem>
+              ))}
+            </Select>
+        </FormControl>
 
-        <label>Year of Study</label>
-        <select
-          value={selectedYear}
-          onChange={(e) => setSelectedYear(e.target.value)}
-        >
-          {yearsOfStudy.map((year) => (
-            <option key={year} value={year}>
-              {year}
-            </option>
-          ))}
-        </select>
+        <FormControl variant="outlined" fullWidth style={{ marginBottom: '16px' }}>
+            <InputLabel>Year of Study</InputLabel>
+            <Select
+              value={selectedYear}
+              onChange={(e) => setSelectedYear(e.target.value)}
+              label="Year of Study"
+            >
+              {yearsOfStudy.map((year) => (
+                <MenuItem key={year} value={year}>
+                  {year}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         <input
         type="file"
         id="profileImageInput"
@@ -117,9 +129,13 @@ const ProfilePage = () => {
         onChange={handleImageChange}
       />
       </div>
-      <button className="save-button" onClick={handleSaveButtonClick}>
-        {isEditing ? "Save" : "Edit"}
-      </button>
+      <Button
+          className="save-button"
+          variant="contained"
+          onClick={handleSaveButtonClick}
+        >
+          {isEditing ? "Save" : "Edit"}
+        </Button>
     </div>
     </>
   );
