@@ -21,7 +21,22 @@ const GoogleAuth = () => {
           try {
             const idToken = await user.getIdToken();
             localStorage.setItem("userToken", idToken);
-            history.push("/HomePage");
+            const response = await fetch(
+              `${process.env.REACT_APP_API_ID + "profile-me"}`,
+              {
+                method: "GET",
+                headers: {
+                  Accept: "application/json",
+                  Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+                },
+              }
+              
+            );
+            if (response.ok) {
+              history.push("/HomePage");
+            } else {
+              history.push("/registerprofile");
+            }
           } catch (error) {
             console.error("Error getting ID token:", error);
           }
@@ -29,6 +44,7 @@ const GoogleAuth = () => {
           console.error("Email address is not allowed for registration.");
         }
       }
+      
       
     } catch (error) {
       console.error("Error signing in with Google:", error);
