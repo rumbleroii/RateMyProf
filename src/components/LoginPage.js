@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import { AuthProvider, useAuth } from "../context/AuthContext";
 
 const GoogleAuth = () => {
-  const { setUser } = useAuth();
+  
   const history = useHistory();
 
   const auth = getAuth();
@@ -29,7 +29,7 @@ const GoogleAuth = () => {
           console.error("Email address is not allowed for registration.");
         }
       }
-      setUser(user);
+      
     } catch (error) {
       console.error("Error signing in with Google:", error);
     }

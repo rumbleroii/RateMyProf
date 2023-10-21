@@ -102,10 +102,10 @@ console.log("User Token:", userToken);
   
   /*
   const professorData = {
-    name: 'KRK',
-    department: selectedDepartment || 'Computer Science',
-    email: 'johndoe@professor.nitw.ac.in',
-    phoneNumber: '123-456-7890',
+    name: 'user',
+    department: 'ECE',
+    timestamp: '10:00',
+    
 }; */
   return (
     

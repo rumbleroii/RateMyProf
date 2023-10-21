@@ -1,61 +1,102 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './Navbar';
-import './ProfilePage.css'
+import './ProfilePage.css';
+import CommentCard from './CommentCard';
 
 function UserProfile() {
   const [userDetails, setUserDetails] = useState({});
   const [userComments, setUserComments] = useState([]);
 
+  const commentData = {
+    name: 'user',
+    department: 'ECE',
+    timestamp: '10:00',
+  };
+
+  const placeholderComments = [
+    {
+      username: commentData.name,
+      content: `This is a placeholder comment in the Department of ${commentData.department}`,
+      timestamp: commentData.timestamp,
+    },
+  ];
+
   useEffect(() => {
-    // Fetch user details
+    const userToken = localStorage.getItem("userToken");
     fetch('http://127.0.0.1:5001/ig-rmp/us-central1/profile-me', {
       method: 'GET',
-      // Include appropriate headers, such as authorization
-      // headers: {
-      //   Authorization: `Bearer ${userToken}`,
-      // },
+      headers: {
+        Authorization: `Bearer ${userToken}`,
+      },
     })
       .then((response) => response.json())
       .then((data) => {
-        setUserDetails(data);
+        setUserDetails(data.user);
+        console.log(data);
       })
+      
       .catch((error) => {
         console.error('Error fetching user details:', error);
       });
 
-    // Fetch user comments
-    fetch('http://127.0.0.1:5001/ig-rmp/us-central1/getComments?name=Ravi Kishore Kodali', {
+    fetch('http://127.0.0.1:5001/ig-rmp/us-central1/comments-get', {
       method: 'GET',
-      // Include appropriate headers, such as authorization
-      // headers: {
-      //   Authorization: `Bearer ${userToken}`,
-      // },
+      headers: {
+        Authorization: `Bearer ${userToken}`,
+      },
     })
       .then((response) => response.json())
       .then((data) => {
-        setUserComments(data);
+        if (Array.isArray(data)) {
+          setUserComments(data);
+        } else {
+          setUserComments([]);
+        }
       })
       .catch((error) => {
         console.error('Error fetching user comments:', error);
+        setUserComments([]);
       });
-  }, []); // The empty dependency array ensures this effect runs only once
+  }, []);
 
   return (
-    <div className='user-profile'>
+    <>
       <Navbar />
-      <h2>User Details</h2>
-      <p>Name: {userDetails.name}</p>
-      <p>Email: {userDetails.email}</p>
-      {/* Add more user details as needed, e.g., profile picture */}
+      <div className='user-profile'>
+        <h2>User Details</h2>
+        <p>Name: {userDetails.name}</p>
+        <p>Branch: {userDetails.department}</p>
+        <p>Year: {userDetails.year}</p>
+        <p>Roll No: {userDetails.rollNumber}</p>
 
-      {/* Display user comments */}
-      <h2>User Comments</h2>
-      <ul>
-        {userComments.map((comment) => (
-          <li key={comment.id}>{comment.text}</li>
-        ))}
-      </ul>
-    </div>
+        <h2>Your Comments: </h2>
+        <CommentCard
+          username={commentData.name}
+          content={`This is a placeholder comment in the Department of ${commentData.department}`}
+          timestamp={commentData.timestamp}
+        />
+        <CommentCard
+          username={commentData.name}
+          content={`This is a placeholder comment in the Department of ${commentData.department}`}
+          timestamp={commentData.timestamp}
+        />
+        <CommentCard
+          username={commentData.name}
+          content={`This is a placeholder comment in the Department of ${commentData.department}`}
+          timestamp={commentData.timestamp}
+        />
+        <CommentCard
+          username={commentData.name}
+          content={`This is a placeholder comment in the Department of ${commentData.department}`}
+          timestamp={commentData.timestamp}
+        />
+        <CommentCard
+          username={commentData.name}
+          content={`This is a placeholder comment in the Department of ${commentData.department}`}
+          timestamp={commentData.timestamp}
+        />
+      </div>
+    </>
   );
 }
 

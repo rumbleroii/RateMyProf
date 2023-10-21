@@ -58,7 +58,7 @@ const ProfessorInfoContainer = styled("div")(({ theme }) => ({
 }));
 
 const SecondDiv = styled(Paper)(({ theme }) => ({
-  background: "#f0f0f0",
+  background: "#white",
   padding: theme.spacing(2),
   textAlign: "center",
   display: "flex",
@@ -68,7 +68,8 @@ const SecondDiv = styled(Paper)(({ theme }) => ({
   width: "25%",
   height: "60%",
   marginTop: "10vh",
-  elevation: 3,
+  elevation: 15,
+  shadow: 4,
 }));
 
 const DisabledSlider = styled(Slider)(({ theme }) => ({
