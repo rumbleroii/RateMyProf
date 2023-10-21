@@ -35,7 +35,7 @@ console.log("User Token:", userToken);
         try {
           setLoading(true);
           const response = await fetch(
-            `${process.env.REACT_APP_API_ID}`,
+            'http://127.0.0.1:5001/ig-rmp/us-central1/professor-get',
             {
               method: 'GET',
               headers: {

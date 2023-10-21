@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/system";
 
-const branches = ["Branch 1", "Branch 2", "Branch 3", "Branch 4"];
+const branches = ["CSE", "ECE", "EEE", "MECH", "CIVIL", "BIOTECH", "MME", "PHY", "MATH"];
 const yearsOfStudy = ["1st Year", "2nd Year", "3rd Year", "4th Year"];
 
 const CustomTextField = styled(TextField)({
