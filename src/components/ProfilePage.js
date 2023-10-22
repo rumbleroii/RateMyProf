@@ -13,7 +13,7 @@ function UserProfile() {
 
   const history = useHistory();
 
-  const deleteComment = async (commentId) => {
+  const deleteComment = async (comment) => {
     try {
       const auth = getAuth();
       if (!auth.currentUser) {
@@ -30,14 +30,18 @@ function UserProfile() {
             Authorization: `Bearer ${userToken}`,
           },
           body: JSON.stringify({
-            professorId: userDetails.professorId,
-            commentId: commentId,
+            professorId: comment.professorId,
+            commentId: comment.id,
           }),
         }
       );
       if (response.ok) {
         fetchUserComments(userToken);
       } else {
+        console.log({
+          professorId: comment.professorId,
+          commentId: comment.id,
+        });
         console.error("Failed to delete the comment");
       }
     } catch (error) {
@@ -78,6 +82,7 @@ function UserProfile() {
     if (data) {
       setUserDetails(data.user);
       setUserComments(data.comments);
+      console.log({ data });
       setLoading(false);
     }
   }, [history]);
@@ -110,7 +115,7 @@ function UserProfile() {
               username={userDetails.name}
               content={comment.commentText}
               timestamp={new Date(parseInt(comment.timestamp)).toLocaleString()}
-              onDelete={() => deleteComment(comment.commentId)}
+              onDelete={() => deleteComment(comment)}
             />
           ))
         ) : (

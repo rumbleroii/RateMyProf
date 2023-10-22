@@ -1,4 +1,4 @@
-import useSWR from "swr";
+import useSWR from "swr/immutable";
 import { useAuth } from "../context/AuthContext";
 
 const fetcher = (user) => async (url, options) => {
