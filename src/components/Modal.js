@@ -29,7 +29,7 @@ const Modal = ({ open, onClose, professorId, onCommentSubmitted }) => {
         leniency,
       };
 
-      fetch(`${process.env.REACT_APP_API_ID}comments-add?id=${professorId}`, {
+      fetch(`${process.env.REACT_APP_API_ID}/comments-add?id=${professorId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

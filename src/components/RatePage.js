@@ -102,11 +102,12 @@ const RatePage = () => {
     const fetchProfessorData = async () => {
       try {
         const auth = getAuth();
-        if (!auth) {
+        if (!auth?.currentUser) {
           history.push("/");
+          return;
         }
         const response = await fetch(
-          `${process.env.REACT_APP_API_ID}professor-get?id=${professorId}`,
+          `${process.env.REACT_APP_API_ID}/professor-get?id=${professorId}`,
           {
             method: "GET",
             headers: {

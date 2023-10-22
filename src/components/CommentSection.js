@@ -19,7 +19,7 @@ const CommentSection = ({ professorId }) => {
           history.push("/");
         }
         const response = await fetch(
-          `${process.env.REACT_APP_API_ID}comments-get?id=${professorId}`,
+          `${process.env.REACT_APP_API_ID}/comments-get?id=${professorId}`,
           {
             method: "GET",
             headers: {
@@ -41,7 +41,7 @@ const CommentSection = ({ professorId }) => {
       }
     };
     fetchComments()
-  }, [professorId]);
+  }, [professorId, history]);
 
   return (
     <div style={{ width: "80%", margin: "0 auto" }}>

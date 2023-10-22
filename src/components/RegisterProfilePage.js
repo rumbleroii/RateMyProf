@@ -78,7 +78,7 @@ const RegisterProfilePage = () => {
       }
       console.log(profileData);
       const response = await fetch(
-        `${process.env.REACT_APP_API_ID + "profile-register"}`,
+        `${process.env.REACT_APP_API_ID}/profile-register`,
         {
           method: "POST",
           headers: {
