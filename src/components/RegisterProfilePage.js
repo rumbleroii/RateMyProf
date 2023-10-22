@@ -11,8 +11,19 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/system";
 import { useHistory } from "react-router-dom";
+import { getAuth } from "firebase/auth";
 
-const branches = ["CSE", "ECE", "EEE", "MECH", "CIVIL", "BIOTECH", "MME", "PHY", "MATH"];
+const branches = [
+  "CSE",
+  "ECE",
+  "EEE",
+  "MECH",
+  "CIVIL",
+  "BIOTECH",
+  "MME",
+  "PHY",
+  "MATH",
+];
 const yearsOfStudy = ["1st Year", "2nd Year", "3rd Year", "4th Year"];
 
 const CustomTextField = styled(TextField)({
@@ -61,6 +72,10 @@ const RegisterProfilePage = () => {
     };
 
     try {
+      const auth = getAuth();
+      if (!auth) {
+        history.push("/");
+      }
       console.log(profileData);
       const response = await fetch(
         `${process.env.REACT_APP_API_ID + "profile-register"}`,
@@ -69,7 +84,7 @@ const RegisterProfilePage = () => {
           headers: {
             Accept: "*/*",
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+            Authorization: `Bearer ${await auth.currentUser.getIdToken()}`,
           },
           body: JSON.stringify(profileData),
         }

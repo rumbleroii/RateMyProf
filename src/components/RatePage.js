@@ -8,6 +8,8 @@ import Rating from "@mui/material/Rating";
 import Paper from "@mui/material/Paper";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import { getAuth } from "firebase/auth";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 const CustomRating = styled(Rating)(({ theme }) => ({
   fontSize: "50px",
   color: "#FFD700",
@@ -85,17 +87,22 @@ const RatePage = () => {
   const searchParams = new URLSearchParams(location.search);
   const professorId = searchParams.get("profId");
   const [professorData, setProfessorData] = useState(null);
+  const history = useHistory();
 
   useEffect(() => {
     const fetchProfessorData = async () => {
       try {
+        const auth = getAuth();
+        if (!auth) {
+          history.push("/");
+        }
         const response = await fetch(
           `${process.env.REACT_APP_API_ID}/professor-get?id=${professorId}`,
           {
             method: "GET",
             headers: {
               Accept: "application/json",
-              Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+              Authorization: `Bearer ${await auth.currentUser.getIdToken()}`,
             },
           }
         );

@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import Navbar from './Navbar';
-import './ProfilePage.css';
-import CommentCard from './CommentCard';
+import React, { useState, useEffect } from "react";
+import Navbar from "./Navbar";
+import "./ProfilePage.css";
+import CommentCard from "./CommentCard";
+import { getAuth } from "firebase/auth";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 function UserProfile() {
   const [userDetails, setUserDetails] = useState({});
   const [userComments, setUserComments] = useState([]);
 
   const commentData = {
-    name: 'user',
-    department: 'ECE',
-    timestamp: '10:00',
+    name: "user",
+    department: "ECE",
+    timestamp: "10:00",
   };
 
   const placeholderComments = [
@@ -21,48 +23,55 @@ function UserProfile() {
     },
   ];
 
+  const history = useHistory();
   useEffect(() => {
-    const userToken = localStorage.getItem("userToken");
-    fetch('http://127.0.0.1:5001/ig-rmp/us-central1/profile-me', {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${userToken}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setUserDetails(data.user);
-        console.log(data);
+    (async () => {
+      const auth = getAuth();
+      if (!auth) {
+        history.push("/");
+      }
+      const userToken = await auth.currentUser.getIdToken();
+      fetch(`${process.env.REACT_APP_API_ID}/profile-me`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${userToken}`,
+        },
       })
-      
-      .catch((error) => {
-        console.error('Error fetching user details:', error);
-      });
+        .then((response) => response.json())
+        .then((data) => {
+          setUserDetails(data.user);
+          console.log(data);
+        })
 
-    fetch('http://127.0.0.1:5001/ig-rmp/us-central1/comments-get', {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${userToken}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (Array.isArray(data)) {
-          setUserComments(data);
-        } else {
-          setUserComments([]);
-        }
+        .catch((error) => {
+          console.error("Error fetching user details:", error);
+        });
+
+      fetch(`${process.env.REACT_APP_API_ID}/comments-get`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${userToken}`,
+        },
       })
-      .catch((error) => {
-        console.error('Error fetching user comments:', error);
-        setUserComments([]);
-      });
+        .then((response) => response.json())
+        .then((data) => {
+          if (Array.isArray(data)) {
+            setUserComments(data);
+          } else {
+            setUserComments([]);
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching user comments:", error);
+          setUserComments([]);
+        });
+    })();
   }, []);
 
   return (
     <>
       <Navbar />
-      <div className='user-profile'>
+      <div className="user-profile">
         <h2>User Details</h2>
         <p>Name: {userDetails.name}</p>
         <p>Branch: {userDetails.department}</p>

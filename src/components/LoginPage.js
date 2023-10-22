@@ -1,16 +1,19 @@
-import React, { useState } from "react";
-import { getAuth, OAuthProvider, signInWithPopup } from "firebase/auth";
+import React, { useEffect } from "react";
+import {
+  getAuth,
+  OAuthProvider,
+  signInWithPopup,
+  onAuthStateChanged,
+} from "firebase/auth";
 import "./LoginPage.css";
 import { useHistory } from "react-router-dom";
-import { AuthProvider, useAuth } from "../context/AuthContext";
 
 const GoogleAuth = () => {
-  
   const history = useHistory();
 
-  const auth = getAuth();
-
   const signInWithGoogle = async () => {
+    const auth = getAuth();
+
     try {
       const provider = new OAuthProvider("google.com");
       const result = await signInWithPopup(auth, provider);
@@ -20,17 +23,15 @@ const GoogleAuth = () => {
         if (email && email.endsWith("@student.nitw.ac.in")) {
           try {
             const idToken = await user.getIdToken();
-            localStorage.setItem("userToken", idToken);
             const response = await fetch(
-              `${process.env.REACT_APP_API_ID + "profile-me"}`,
+              `${process.env.REACT_APP_API_ID}/profile-me`,
               {
                 method: "GET",
                 headers: {
                   Accept: "application/json",
-                  Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+                  Authorization: `Bearer ${idToken}`,
                 },
               }
-              
             );
             if (response.ok) {
               history.push("/HomePage");
@@ -44,13 +45,22 @@ const GoogleAuth = () => {
           console.error("Email address is not allowed for registration.");
         }
       }
-      
-      
     } catch (error) {
       console.error("Error signing in with Google:", error);
     }
   };
 
+  useEffect(() => {
+    const auth = getAuth();
+    if (auth.currentUser) {
+      history.push("/HomePage");
+    }
+    onAuthStateChanged(auth, (user) => {
+      if (auth.currentUser) {
+        history.push("/HomePage");
+      }
+    });
+  });
   return (
     <div className="login-container">
       <div className="blue-background">

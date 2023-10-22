@@ -12,6 +12,8 @@ import {
   FormControl,
   InputLabel,
 } from "@mui/material";
+import { getAuth } from "firebase/auth";
+import { useHistory } from "react-router-dom/cjs/react-router-dom";
 
 function HomePage() {
   const [selectedDepartment, setSelectedDepartment] = useState("");
@@ -23,18 +25,23 @@ function HomePage() {
   const [page, setPage] = useState(1);
   const limit = 20;
   const lastDocument = useRef(null);
+  const history = useHistory();
 
   useEffect(() => {
+    const auth = getAuth();
+    if (!auth.currentUser) {
+      history.push("/");
+    }
     const fetchData = async () => {
       try {
         setLoading(true);
         const response = await fetch(
-          `${process.env.REACT_APP_API_ID + "professor-get"}`,
+          `${process.env.REACT_APP_API_ID}/professor-get`,
           {
             method: "GET",
             headers: {
               Accept: "application/json",
-              Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+              Authorization: `Bearer ${await auth.currentUser.getIdToken()}`,
             },
           }
         );
@@ -42,7 +49,6 @@ function HomePage() {
         const data = await response.json();
         if (Array.isArray(data.list)) {
           const professorData = data.list;
-          console.log(professorData);
           lastDocument.current = professorData[professorData.length - 1].name;
           setProfessors((prevProfessors) => [
             ...prevProfessors,
@@ -80,25 +86,24 @@ function HomePage() {
     })
     .slice(startIndex, endIndex);
 
-    const filterProfessors = () => {
-      const filtered = professorsToDisplay.filter((professorData) =>
-        professorData.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      setFilteredProfessors(filtered);
-    };
-  
-    // Event handler for Enter key press
-    const handleEnterKeyPress = (e) => {
-      if (e.key === 'Enter') {
-        filterProfessors();
-      }
-    };
-  
-    // Event handler to select a professor from the ComboBox
-    const handleProfessorSelect = (professor) => {
-      setSelectedProfessor(professor);
-    };
-  
+  const filterProfessors = () => {
+    const filtered = professorsToDisplay.filter((professorData) =>
+      professorData.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredProfessors(filtered);
+  };
+
+  // Event handler for Enter key press
+  const handleEnterKeyPress = (e) => {
+    if (e.key === "Enter") {
+      filterProfessors();
+    }
+  };
+
+  // Event handler to select a professor from the ComboBox
+  const handleProfessorSelect = (professor) => {
+    setSelectedProfessor(professor);
+  };
 
   return (
     <div className="homepage">
@@ -146,19 +151,13 @@ function HomePage() {
             <MenuItem value="Department of Chemistry">
               Chemistry (CHEM)
             </MenuItem>
-            <MenuItem value="Department of Physics">
-              Physics (PHY)
-            </MenuItem>
+            <MenuItem value="Department of Physics">Physics (PHY)</MenuItem>
             <MenuItem value="Department of Mathematics">
               Mathematics (MATH)
             </MenuItem>
-            
-            
-            
           </Select>
         </FormControl>
       </div>
-      
 
       <ComboBox
         professorsToDisplay={professorsToDisplay}
@@ -201,7 +200,11 @@ function HomePage() {
         <p>No professors found or an error occurred.</p>
       )}
       {!loading && (
-        <button onClick={loadMore} disabled={!lastDocument.current} className="load-more-button">
+        <button
+          onClick={loadMore}
+          disabled={!lastDocument.current}
+          className="load-more-button"
+        >
           Load More
         </button>
       )}
