@@ -49,7 +49,6 @@ function UserProfile() {
     }
   };
 
-  // Function to fetch user comments
   const fetchUserComments = async (userToken) => {
     try {
       const response = await fetch(
@@ -64,6 +63,7 @@ function UserProfile() {
       if (response.ok) {
         const data = await response.json();
         setUserComments(data.comments);
+        console.log(data);
         setLoading(false);
       } else {
         console.error("Error fetching user comments");

@@ -4,30 +4,19 @@ import Navbar from "./Navbar";
 import "./HomePage.css";
 import ComboBox from "./ComboBox";
 
-import {
-  Button,
-  TextField,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
-} from "@mui/material";
-import { getAuth } from "firebase/auth";
-import { useHistory } from "react-router-dom/cjs/react-router-dom";
+import { Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import { useApi } from "../utils/api";
 
 function HomePage() {
   const [selectedDepartment, setSelectedDepartment] = useState("");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedProfessor, setSelectedProfessor] = useState(null);
-  const [filteredProfessors, setFilteredProfessors] = useState([]);
   const [professors, setProfessors] = useState([]);
   const [page, setPage] = useState(1);
+  const [selectedProfessor, setSelectedProfessorName] = useState(null);
+
   const limit = 20;
   const lastDocument = useRef(null);
-  const history = useHistory();
 
-  const { data, loading, error } = useApi("/professor-get");
+  const { data, loading} = useApi("/professor-get");
   useEffect(() => {
     try {
       if (data && Array.isArray(data?.list)) {
@@ -48,9 +37,24 @@ function HomePage() {
   const loadMore = () => {
     setPage((prevPage) => prevPage + 1);
   };
+  const handleProfessorSelect = (selectedProfessor) => {
+    if (selectedProfessor == null || selectedProfessor.label == null)
+      setSelectedProfessorName(null);
+    if (selectedProfessor && selectedProfessor.label) {
+      const foundProfessor = professors.find(
+        (professor) => professor.name === selectedProfessor.label
+      );
+      if (foundProfessor) {
+        setSelectedProfessorName(foundProfessor);
+      } else {
+        console.log("Error in finding professor");
+      }
+    }
+  };
 
   const handleDepartmentChange = (e) => {
     setSelectedDepartment(e.target.value);
+    setSelectedProfessorName(null);
   };
   const startIndex = (page - 1) * limit;
   const endIndex = startIndex + limit;
@@ -64,29 +68,11 @@ function HomePage() {
     })
     .slice(startIndex, endIndex);
 
-  const filterProfessors = () => {
-    const filtered = professorsToDisplay.filter((professorData) =>
-      professorData.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredProfessors(filtered);
-  };
-
-  // Event handler for Enter key press
-  const handleEnterKeyPress = (e) => {
-    filterProfessors();
-  };
-
-  // Event handler to select a professor from the ComboBox
-  const handleProfessorSelect = (professor) => {
-    setSelectedProfessor(professor);
-  };
-
   return (
     <div className="homepage">
       <Navbar />
 
       <h1 className="nit-title">NITW</h1>
-      {/* Other content of your homepage */}
       <div className="dropdown-container">
         <FormControl variant="outlined" fullWidth>
           <InputLabel>Select a Department:</InputLabel>
@@ -143,8 +129,20 @@ function HomePage() {
       {selectedDepartment && (
         <h1 className="selected-department"> {selectedDepartment}</h1>
       )}
-
-      {Array.isArray(professorsToDisplay) ? (
+      {selectedProfessor ? (
+        <ProfessorCard
+          id={selectedProfessor.id}
+          name={selectedProfessor.name || "No Name"}
+          department={selectedProfessor.department || "No Department"}
+          email={selectedProfessor.email || "No Email"}
+          phoneNumber={
+            selectedProfessor.phone_numbers &&
+            selectedProfessor.phone_numbers.length > 0
+              ? selectedProfessor.phone_numbers[0]
+              : "No Phone Number"
+          }
+        />
+      ) : Array.isArray(professorsToDisplay) ? (
         professorsToDisplay.map((professorData, index) => (
           <ProfessorCard
             key={index}
@@ -175,7 +173,8 @@ function HomePage() {
       ) : (
         <p>No professors found or an error occurred.</p>
       )}
-      {!loading && (
+
+      {!selectedProfessor && !loading && (
         <button
           onClick={loadMore}
           disabled={!lastDocument.current}
@@ -184,8 +183,6 @@ function HomePage() {
           Load More
         </button>
       )}
-
-      {/* Other content of your homepage */}
     </div>
   );
 }
