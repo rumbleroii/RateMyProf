@@ -1,15 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import CommentSection from "./CommentSection";
 import Modal from "./Modal";
-import { Button, Typography, Box, Slider } from "@mui/material";
+import { Button, Typography, Slider, Paper } from "@mui/material";
 import { styled } from "@mui/system";
 import Rating from "@mui/material/Rating";
-import Paper from "@mui/material/Paper";
 import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
 import { getAuth } from "firebase/auth";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+
 const CustomRating = styled(Rating)(({ theme }) => ({
   fontSize: "50px",
   color: "#FFD700",
@@ -80,14 +79,24 @@ const DisabledSlider = styled(Slider)(({ theme }) => ({
   pointerEvents: "none",
   cursor: "default",
 }));
-
 const RatePage = () => {
   const [isOpen, setOpen] = useState(false);
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const professorId = searchParams.get("profId");
-  const [professorData, setProfessorData] = useState(null);
   const history = useHistory();
+  const [professorData, setProfessorData] = useState({
+    name: "",
+    phone_number: "",
+    role: "",
+    email: "",
+    coursework: 0,
+    leniency: 0,
+    rating: 0,
+    overall: 0,
+  });
+
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchProfessorData = async () => {
@@ -109,8 +118,27 @@ const RatePage = () => {
 
         if (response.ok) {
           const data = await response.json();
-          setProfessorData(data);
-          console.log("Professor Data:", data);
+          const profdata = data.list[0];
+          console.log(profdata.name);
+          if (profdata) {
+            setProfessorData({
+              name: profdata.name,
+              phone_number: "000",
+              role: profdata.role,
+              email: profdata.email,
+              leniency: profdata.leniency ?? 0,
+              coursework: profdata.coursework ?? 0,
+              rating: profdata.rating ?? 0,
+              overall:
+                ((profdata.rating ?? 0) +
+                  (profdata.leniency ?? 0) +
+                  (profdata.coursework ?? 0)) /
+                6,
+            });
+            setIsLoading(false);
+          } else {
+            console.error("Data structure does not match expected fields.");
+          }
         } else {
           console.error("Failed to fetch professor data");
         }
@@ -126,49 +154,60 @@ const RatePage = () => {
     <div>
       <Navbar />
       <Container>
-        <ProfessorInfoContainer>
-          <Typography variant="h4">P Venkateswara Rao</Typography>
-          <Typography variant="h6">Associate Professor</Typography>
-          <ContactInfo>
-            <Typography variant="body1">9420161800</Typography>
-            <Separator>|</Separator>
-            <Typography variant="body1">pvenku@nitw.ac.in</Typography>
-          </ContactInfo>
-          <CustomRating
-            name="professor-rating"
-            value={4}
-            precision={0.5}
-            readOnly
-            disabled
-          />
-          <div>
-            <RateButton onClick={() => setOpen(true)}>
-              Rate Professor
-            </RateButton>
-          </div>
-        </ProfessorInfoContainer>
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : (
+          <ProfessorInfoContainer>
+            <Typography variant="h4">{professorData.name}</Typography>
+            <Typography variant="h6">{professorData.role}</Typography>
+            <ContactInfo>
+              <Typography variant="body1">9420161800</Typography>
+              <Separator>|</Separator>
+              <Typography variant="body1">{professorData.email}</Typography>
+            </ContactInfo>
+            <CustomRating
+              name="professor-rating"
+              value={professorData.overall}
+              precision={0.5}
+              readOnly
+              disabled
+            />
+            <div>
+              <RateButton onClick={() => setOpen(true)}>
+                Rate Professor
+              </RateButton>
+            </div>
+          </ProfessorInfoContainer>
+        )}
+
         <SecondDiv>
           <Typography variant="h6">Breakdown</Typography>
 
           <div>
             <p>Overall Rating</p>
             <div style={{ display: "flex", alignItems: "center" }}>
-              <DisabledSlider value={5} max={10} />
-              <span style={{ marginLeft: "10px", color: "black" }}>5.0/10</span>
+              <DisabledSlider value={professorData.rating} max={10} />
+              <span style={{ marginLeft: "10px", color: "black" }}>
+                {professorData.rating.toFixed(1)}/10
+              </span>
             </div>
           </div>
           <div>
             <p>Coursework</p>
             <div style={{ display: "flex", alignItems: "center" }}>
-              <DisabledSlider value={8.7} max={10} />
-              <span style={{ marginLeft: "10px", color: "black" }}>8.7/10</span>
+              <DisabledSlider value={professorData.coursework} max={10} />
+              <span style={{ marginLeft: "10px", color: "black" }}>
+                {professorData.coursework.toFixed(1)}/10
+              </span>
             </div>
           </div>
           <div>
             <p>Leniency</p>
             <div style={{ display: "flex", alignItems: "center" }}>
-              <DisabledSlider value={4} max={10} />
-              <span style={{ marginLeft: "10px", color: "black" }}>4.0/10</span>
+              <DisabledSlider value={professorData.leniency} max={10} />
+              <span style={{ marginLeft: "10px", color: "black" }}>
+                {professorData.leniency.toFixed(1)}/10
+              </span>
             </div>
           </div>
         </SecondDiv>
@@ -176,7 +215,11 @@ const RatePage = () => {
 
       {isOpen && (
         <div id="custom-modal-root">
-          <Modal open={isOpen} onClose={() => setOpen(false)}></Modal>
+          <Modal
+            open={isOpen}
+            onClose={() => setOpen(false)}
+            professorId={professorId}
+          ></Modal>
         </div>
       )}
       <div

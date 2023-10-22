@@ -1,5 +1,5 @@
 import { createPortal } from "react-dom";
-import React from "react"; // Import React just once
+import React, { useState } from "react";
 import "./Modal.css";
 import {
   Button,
@@ -7,13 +7,51 @@ import {
   FormLabel,
   Slider,
   TextField,
+  Switch,
 } from "@mui/material";
 
-const Modal = ({ open, onClose }) => {
-  const getVal = (e, val) => {
-    console.warn(val);
+const Modal = ({ open, onClose, professorId, onCommentSubmitted }) => {
+  const [anonymous, setAnonymous] = useState(false);
+  const [comment, setComment] = useState("");
+  const [rating, setRating] = useState(5);
+  const [coursework, setCoursework] = useState(5);
+  const [leniency, setLeniency] = useState(5);
+  const [isCommentValid, setIsCommentValid] = useState(false);
+
+  const handleSubmit = () => {
+    if (comment.length >= 30) {
+      const requestBody = {
+        professorId,
+        comment,
+        anonymous,
+        rating,
+        coursework,
+        leniency,
+      };
+
+      fetch(`${process.env.REACT_APP_API_ID}comments-add?id=${professorId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+        },
+        body: JSON.stringify(requestBody),
+      })
+        .then((response) => {
+          if (response.ok) {
+            onClose();
+          } else {
+            console.error("Failed to add comment");
+          }
+        })
+        .catch((error) => {
+          console.error("Error adding comment:", error);
+        });
+    }
   };
+
   if (!open) return null;
+
   return createPortal(
     <div className="overlay">
       <div className="modalpop">
@@ -33,42 +71,61 @@ const Modal = ({ open, onClose }) => {
           >
             Professor Kishore Ravi Kumar
           </DialogTitle>
+
+          <div className="anonymous-switch">
+            <FormLabel>Anonymous</FormLabel>
+            <Switch
+              checked={anonymous}
+              onChange={() => setAnonymous(!anonymous)}
+            />
+          </div>
+
           <div className="sliders">
             <FormLabel>Rate the Professor</FormLabel>
             <Slider
+              value={rating}
+              onChange={(e, val) => setRating(val)}
+              min={0}
               max={10}
-              defaultValue={5}
               valueLabelDisplay="auto"
-              onChange={getVal}
             ></Slider>
           </div>
           <div className="sliders">
             <FormLabel>Professor Difficulty (Exams/Assignments)</FormLabel>
             <Slider
+              value={coursework}
+              onChange={(e, val) => setCoursework(val)}
+              min={0}
               max={10}
-              defaultValue={5}
               valueLabelDisplay="auto"
-              onChange={getVal}
             ></Slider>
           </div>
           <div className="sliders">
             <FormLabel>How Lenient is the Professor (Attendance)</FormLabel>
             <Slider
+              value={leniency}
+              onChange={(e, val) => setLeniency(val)}
+              min={0}
               max={10}
-              defaultValue={5}
               valueLabelDisplay="auto"
-              onChange={getVal}
             ></Slider>
           </div>
+
           <div className="sliders">
             <TextField
-              label="Comments"
+              label="Comments (Minimum 30 characters)"
               multiline
               variant="outlined"
               fullWidth
               minRows={10}
+              value={comment}
+              onChange={(e) => {
+                setComment(e.target.value);
+                setIsCommentValid(e.target.value.length >= 30);
+              }}
             ></TextField>
           </div>
+
           <Button
             variant="contained"
             style={{
@@ -76,6 +133,8 @@ const Modal = ({ open, onClose }) => {
               float: "right",
               marginTop: "15px",
             }}
+            onClick={handleSubmit}
+            disabled={!isCommentValid}
           >
             Submit
           </Button>

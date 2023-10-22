@@ -40,9 +40,7 @@ const CommentSection = ({ professorId }) => {
         console.error("Error fetching comments:", error);
       }
     };
-
-    // Fetch comments when the professorId prop changes
-    fetchComments();
+    fetchComments()
   }, [professorId]);
 
   return (
@@ -68,7 +66,7 @@ const CommentSection = ({ professorId }) => {
             }}
           >
             <Typography variant="subtitle1" style={{ fontWeight: "bold" }}>
-              Anonymous
+              {comment.anonymous ? "Anonymous" : comment.name}
             </Typography>
             <Typography variant="caption" color="textSecondary">
               {new Date(parseInt(comment.timestamp)).toLocaleString()}
