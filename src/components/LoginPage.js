@@ -56,9 +56,7 @@ const GoogleAuth = () => {
       history.push("/HomePage");
     }
     onAuthStateChanged(auth, (user) => {
-      if (auth.currentUser) {
-        history.push("/HomePage");
-      }
+      if (user) history.push("/HomePage");
     });
   });
   return (

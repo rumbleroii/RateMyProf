@@ -4,6 +4,7 @@ import "./ProfilePage.css";
 import CommentCard from "./CommentCard";
 import { getAuth } from "firebase/auth";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useApi } from "../utils/api";
 
 function UserProfile() {
   const [userDetails, setUserDetails] = useState({});
@@ -24,47 +25,22 @@ function UserProfile() {
   ];
 
   const history = useHistory();
+  const { data, loading } = useApi("/profile-me");
+  const { data: commentsData, loading: commentsLoading } =
+    useApi("/comments-get");
   useEffect(() => {
     (async () => {
-      const auth = getAuth();
-      if (!auth) {
-        history.push("/");
+      if (data) {
+        setUserDetails(data.user);
+        console.log(data);
       }
-      const userToken = await auth.currentUser.getIdToken();
-      fetch(`${process.env.REACT_APP_API_ID}/profile-me`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${userToken}`,
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          setUserDetails(data.user);
-          console.log(data);
-        })
-
-        .catch((error) => {
-          console.error("Error fetching user details:", error);
-        });
-
-      fetch(`${process.env.REACT_APP_API_ID}/comments-get`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${userToken}`,
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (Array.isArray(data)) {
-            setUserComments(data);
-          } else {
-            setUserComments([]);
-          }
-        })
-        .catch((error) => {
-          console.error("Error fetching user comments:", error);
+      if (commentsData) {
+        if (Array.isArray(commentsData)) {
+          setUserComments(commentsData);
+        } else {
           setUserComments([]);
-        });
+        }
+      }
     })();
   }, []);
 

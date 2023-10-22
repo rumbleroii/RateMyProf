@@ -8,6 +8,7 @@ import Rating from "@mui/material/Rating";
 import { useLocation } from "react-router-dom";
 import { getAuth } from "firebase/auth";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useApi } from "../utils/api";
 
 const CustomRating = styled(Rating)(({ theme }) => ({
   fontSize: "50px",
@@ -84,7 +85,6 @@ const RatePage = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const professorId = searchParams.get("profId");
-  const history = useHistory();
   const [professorData, setProfessorData] = useState({
     name: "",
     phone_number: "",
@@ -97,59 +97,29 @@ const RatePage = () => {
   });
 
   const [isLoading, setIsLoading] = useState(true);
-
+  const { data, loading, error } = useApi(`/professor-get?id=${professorId}`);
   useEffect(() => {
-    const fetchProfessorData = async () => {
-      try {
-        const auth = getAuth();
-        if (!auth?.currentUser) {
-          history.push("/");
-          return;
-        }
-        const response = await fetch(
-          `${process.env.REACT_APP_API_ID}/professor-get?id=${professorId}`,
-          {
-            method: "GET",
-            headers: {
-              Accept: "application/json",
-              Authorization: `Bearer ${await auth.currentUser.getIdToken()}`,
-            },
-          }
-        );
-
-        if (response.ok) {
-          const data = await response.json();
-          const profdata = data.list[0];
-          console.log(profdata.name);
-          if (profdata) {
-            setProfessorData({
-              name: profdata.name,
-              phone_number: "000",
-              role: profdata.role,
-              email: profdata.email,
-              leniency: profdata.leniency ?? 0,
-              coursework: profdata.coursework ?? 0,
-              rating: profdata.rating ?? 0,
-              overall:
-                ((profdata.rating ?? 0) +
-                  (profdata.leniency ?? 0) +
-                  (profdata.coursework ?? 0)) /
-                6,
-            });
-            setIsLoading(false);
-          } else {
-            console.error("Data structure does not match expected fields.");
-          }
-        } else {
-          console.error("Failed to fetch professor data");
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchProfessorData();
-  }, [professorId]);
+    if (!data) return
+    const profdata = data.list[0];
+    console.log(profdata.name);
+    if (profdata) {
+      setProfessorData({
+        name: profdata.name,
+        phone_number: "000",
+        role: profdata.role,
+        email: profdata.email,
+        leniency: profdata.leniency ?? 0,
+        coursework: profdata.coursework ?? 0,
+        rating: profdata.rating ?? 0,
+        overall:
+          ((profdata.rating ?? 0) +
+            (profdata.leniency ?? 0) +
+            (profdata.coursework ?? 0)) /
+          6,
+      });
+      setIsLoading(false);
+    }
+  }, [professorId, data ]);
 
   return (
     <div>

@@ -14,11 +14,11 @@ import {
 } from "@mui/material";
 import { getAuth } from "firebase/auth";
 import { useHistory } from "react-router-dom/cjs/react-router-dom";
+import { useApi } from "../utils/api";
 
 function HomePage() {
   const [selectedDepartment, setSelectedDepartment] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  const [loading, setLoading] = useState(true);
   const [selectedProfessor, setSelectedProfessor] = useState(null);
   const [filteredProfessors, setFilteredProfessors] = useState([]);
   const [professors, setProfessors] = useState([]);
@@ -27,45 +27,23 @@ function HomePage() {
   const lastDocument = useRef(null);
   const history = useHistory();
 
+  const { data, loading, error } = useApi("/professor-get");
   useEffect(() => {
-    const auth = getAuth();
-    if (!auth.currentUser) {
-      history.push("/");
-    }
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(
-          `${process.env.REACT_APP_API_ID}/professor-get`,
-          {
-            method: "GET",
-            headers: {
-              Accept: "application/json",
-              Authorization: `Bearer ${await auth.currentUser.getIdToken()}`,
-            },
-          }
-        );
-
-        const data = await response.json();
-        if (Array.isArray(data.list)) {
-          const professorData = data.list;
-          lastDocument.current = professorData[professorData.length - 1].name;
-          setProfessors((prevProfessors) => [
-            ...prevProfessors,
-            ...professorData,
-          ]);
-        } else {
-          console.error("API response has an unexpected format:", data);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
+    try {
+      if (data && Array.isArray(data?.list)) {
+        const professorData = data.list;
+        lastDocument.current = professorData[professorData.length - 1].name;
+        setProfessors((prevProfessors) => [
+          ...prevProfessors,
+          ...professorData,
+        ]);
+      } else if (data && !Array.isArray(data?.list)) {
+        console.error("API response has an unexpected format:", data);
       }
-    };
-
-    fetchData();
-  }, [page]);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }, [data, page]);
 
   const loadMore = () => {
     setPage((prevPage) => prevPage + 1);
@@ -95,9 +73,7 @@ function HomePage() {
 
   // Event handler for Enter key press
   const handleEnterKeyPress = (e) => {
-    if (e.key === "Enter") {
-      filterProfessors();
-    }
+    filterProfessors();
   };
 
   // Event handler to select a professor from the ComboBox

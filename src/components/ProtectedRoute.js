@@ -2,12 +2,12 @@ import { useAuth } from "../context/AuthContext";
 import { Route, Redirect } from "react-router-dom";
 
 function ProtectedRoute({ component: Component, ...rest }) {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   return (
     <Route
       {...rest}
       render={(props) =>
-        user ? <Component {...props} /> : <Redirect to="/" />
+        user || loading ? <Component {...props} /> : <Redirect to="/" />
       }
     />
   );

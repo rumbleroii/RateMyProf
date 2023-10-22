@@ -6,42 +6,15 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import { getAuth } from "firebase/auth";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useApi } from "../utils/api";
 
 const CommentSection = ({ professorId }) => {
   const [comments, setComments] = useState([]);
 
-  const history = useHistory();
+  const { data, loading, error } = useApi(`/comments-get?id=${professorId}`);
   useEffect(() => {
-    const fetchComments = async () => {
-      try {
-        const auth = getAuth();
-        if (!auth) {
-          history.push("/");
-        }
-        const response = await fetch(
-          `${process.env.REACT_APP_API_ID}/comments-get?id=${professorId}`,
-          {
-            method: "GET",
-            headers: {
-              Accept: "application/json",
-              Authorization: `Bearer ${await auth.currentUser.getIdToken()}`,
-            },
-          }
-        );
-
-        if (response.ok) {
-          const data = await response.json();
-          console.log(data);
-          setComments(data.professor.comments);
-        } else {
-          console.error("Failed to fetch comments");
-        }
-      } catch (error) {
-        console.error("Error fetching comments:", error);
-      }
-    };
-    fetchComments()
-  }, [professorId, history]);
+    if (data) setComments(data.professor.comments);
+  }, [professorId, data]);
 
   return (
     <div style={{ width: "80%", margin: "0 auto" }}>
