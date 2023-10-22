@@ -11,36 +11,97 @@ const CommentSection = ({ professorId }) => {
   const [comments, setComments] = useState([]);
 
   const history = useHistory();
-  useEffect(() => {
-    const fetchComments = async () => {
-      try {
-        const auth = getAuth();
-        if (!auth) {
-          history.push("/");
-        }
-        const response = await fetch(
-          `${process.env.REACT_APP_API_ID}/comments-get?id=${professorId}`,
-          {
-            method: "GET",
-            headers: {
-              Accept: "application/json",
-              Authorization: `Bearer ${await auth.currentUser.getIdToken()}`,
-            },
-          }
-        );
 
-        if (response.ok) {
-          const data = await response.json();
-          console.log(data);
-          setComments(data.professor.comments);
-        } else {
-          console.error("Failed to fetch comments");
-        }
-      } catch (error) {
-        console.error("Error fetching comments:", error);
+  const fetchComments = async () => {
+    try {
+      const auth = getAuth();
+      if (!auth) {
+        history.push("/");
       }
-    };
-    fetchComments()
+      const response = await fetch(
+        `${process.env.REACT_APP_API_ID}/comments-get?id=${professorId}`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${await auth.currentUser.getIdToken()}`,
+          },
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        setComments(data.professor.comments);
+      } else {
+        console.error("Failed to fetch comments");
+      }
+    } catch (error) {
+      console.error("Error fetching comments:", error);
+    }
+  };
+
+  const handleUpvote = async (commentId) => {
+    try {
+      const auth = getAuth();
+      if (!auth) {
+        history.push("/");
+      }
+      const response = await fetch(
+        `${process.env.REACT_APP_API_ID}/comments-vote`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${await auth.currentUser.getIdToken()}`,
+          },
+          body: JSON.stringify({
+            upvote: true,
+            commentId: commentId,
+          }),
+        }
+      );
+      if (response.ok) {
+        fetchComments();
+      } else {
+        console.error("Failed to upvote comment");
+      }
+    } catch (error) {
+      console.error("Error upvoting comment:", error);
+    }
+  };
+
+  const handleDownvote = async (commentId) => {
+    try {
+      const auth = getAuth();
+      if (!auth) {
+        history.push("/");
+      }
+      const response = await fetch(
+        `${process.env.REACT_APP_API_ID}/comments-vote`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${await auth.currentUser.getIdToken()}`,
+          },
+          body: JSON.stringify({
+            upvote: false,
+            commentId: commentId,
+          }),
+        }
+      );
+      if (response.ok) {
+        fetchComments();
+      } else {
+        console.error("Failed to downvote comment");
+      }
+    } catch (error) {
+      console.error("Error downvoting comment:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchComments();
   }, [professorId, history]);
 
   return (
@@ -83,13 +144,18 @@ const CommentSection = ({ professorId }) => {
             }}
           >
             <div style={{ display: "flex", alignItems: "center" }}>
-              <IconButton color="default" style={{ padding: "10px" }}>
+              <IconButton
+                color="default"
+                style={{ padding: "10px" }}
+                onClick={() => handleUpvote(comment.commentId)}
+              >
                 <ThumbUpIcon style={{ color: "blue" }} />
               </IconButton>
               <Typography variant="body2">{comment.upvotes}</Typography>
               <IconButton
                 color="default"
                 style={{ padding: "5px", marginLeft: "10px" }}
+                onClick={() => handleDownvote(comment.commentId)}
               >
                 <ThumbDownIcon style={{ color: "gray" }} />
               </IconButton>

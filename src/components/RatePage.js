@@ -99,6 +99,10 @@ const RatePage = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    const auth = getAuth();
+    if (!auth) {
+      history.push("/");
+    }
     const fetchProfessorData = async () => {
       try {
         const auth = getAuth();
