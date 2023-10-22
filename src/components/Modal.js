@@ -22,33 +22,39 @@ const Modal = ({ open, onClose, professorId, onCommentSubmitted }) => {
 
   const handleSubmit = async () => {
     if (comment.length >= 30) {
-      const requestBody = {
-        professorId,
-        comment,
-        anonymous,
-        rating,
-        coursework,
-        leniency,
-      };
-
-      const response = await fetch(
-        `${process.env.REACT_APP_API_ID}/comments-add?id=${professorId}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${await getAuth().currentUser.getIdToken()}`,
-          },
-          body: JSON.stringify(requestBody),
-        }
-      ).catch((error) => {
-        console.error("Error adding comment:", error);
-      });
-      if (response.ok) {
+      try {
+        await submitComment();
         onClose();
-      } else {
-        console.error("Failed to add comment");
+      } catch (error) {
+        console.error("Error adding comment:", error);
       }
+    }
+  };
+
+  const submitComment = async () => {
+    const auth = getAuth();
+    const requestBody = {
+      professorId,
+      comment,
+      anonymous,
+      rating,
+      coursework,
+      leniency,
+    };
+    const response = await fetch(
+      `${process.env.REACT_APP_API_ID}/comments-add?id=${professorId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${await auth.currentUser.getIdToken()}`,
+        },
+        body: JSON.stringify(requestBody),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to add comment");
     }
   };
 
