@@ -8,7 +8,7 @@ function Navbar() {
       <h1 className="navbar-title">RateMyProf</h1>
       <div className="navbar-links">
         <Link to="/homepage">Home</Link>
-        <Link to="/registerprofile">Profile</Link>
+        <Link to="/userprofile">Profile</Link>
       </div>
     </div>
   );
