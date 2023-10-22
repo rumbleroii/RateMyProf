@@ -19,7 +19,7 @@ const CommentSection = ({ professorId }) => {
           history.push("/");
         }
         const response = await fetch(
-          `${process.env.REACT_APP_API_ID}/comments-get?id=${professorId}`,
+          `${process.env.REACT_APP_API_ID}comments-get?id=${professorId}`,
           {
             method: "GET",
             headers: {
@@ -31,7 +31,8 @@ const CommentSection = ({ professorId }) => {
 
         if (response.ok) {
           const data = await response.json();
-          setComments(data);
+          console.log(data);
+          setComments(data.professor.comments);
         } else {
           console.error("Failed to fetch comments");
         }
@@ -55,6 +56,8 @@ const CommentSection = ({ professorId }) => {
             margin: "10px 0",
             padding: "10px",
             marginTop: "20px",
+            display: "flex",
+            flexDirection: "column",
           }}
         >
           <div
@@ -62,43 +65,37 @@ const CommentSection = ({ professorId }) => {
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              marginBottom: "5px",
             }}
           >
             <Typography variant="subtitle1" style={{ fontWeight: "bold" }}>
-              {comment.username}
+              Anonymous
             </Typography>
             <Typography variant="caption" color="textSecondary">
-              {comment.timestamp}
+              {new Date(parseInt(comment.timestamp)).toLocaleString()}
             </Typography>
           </div>
           <Typography variant="body1" style={{ margin: "10px 0" }}>
-            {comment.text}
+            {comment.commentText}
           </Typography>
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                marginRight: "10px",
-              }}
-            >
-              <IconButton color="default">
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <IconButton color="default" style={{ padding: "10px" }}>
                 <ThumbUpIcon style={{ color: "blue" }} />
               </IconButton>
-              <Typography variant="body2" style={{ marginRight: "5px" }}>
-                {comment.likes}
-              </Typography>
-              Likes
-            </div>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <IconButton color="default">
+              <Typography variant="body2">{comment.upvotes}</Typography>
+              <IconButton
+                color="default"
+                style={{ padding: "5px", marginLeft: "10px" }}
+              >
                 <ThumbDownIcon style={{ color: "gray" }} />
               </IconButton>
-              <Typography variant="body2" style={{ marginRight: "5px" }}>
-                {comment.dislikes}
-              </Typography>
-              Dislikes
+              <Typography variant="body2">{comment.downvotes}</Typography>
             </div>
           </div>
         </Paper>

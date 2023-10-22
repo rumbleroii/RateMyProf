@@ -97,7 +97,7 @@ const RatePage = () => {
           history.push("/");
         }
         const response = await fetch(
-          `${process.env.REACT_APP_API_ID}/professor-get?id=${professorId}`,
+          `${process.env.REACT_APP_API_ID}professor-get?id=${professorId}`,
           {
             method: "GET",
             headers: {
