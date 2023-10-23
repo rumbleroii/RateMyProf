@@ -6,13 +6,11 @@ import { Button, Typography, Slider, Paper } from "@mui/material";
 import { styled } from "@mui/system";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Rating from "@mui/material/Rating";
-import './RatePage.css';
+import "./RatePage.css";
 import { useLocation } from "react-router-dom";
 import { getAuth } from "firebase/auth";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { useApi } from "../utils/api";
-
-
 
 const CustomRating = styled(Rating)(({ theme }) => ({
   fontSize: "50px",
@@ -104,7 +102,7 @@ const RatePage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { data, loading, error } = useApi(`/professor-get?id=${professorId}`);
   useEffect(() => {
-    if (!data) return
+    if (!data) return;
     const profdata = data.list[0];
     console.log(profdata.name);
     if (profdata) {
@@ -124,101 +122,109 @@ const RatePage = () => {
       });
       setIsLoading(false);
     }
-  }, [professorId, data ]);
+  }, [professorId, data]);
 
   return (
     <>
-    <Navbar />
-    <div className={`container ${isMobile ? 'mobile-container' : 'standard-container'}`}>
-      
-      <Container className="content-container">
-        {isLoading ? (
-          <p>Loading...</p>
-        ) : (
-          <ProfessorInfoContainer className="professor-info-container">
-            <Typography variant="h4">{professorData.name}</Typography>
-            <Typography variant="h6">{professorData.role}</Typography>
-            <ContactInfo>
-              <Typography variant="body1">9420161800</Typography>
-              <Separator>|</Separator>
-              <Typography variant="body1">{professorData.email}</Typography>
-            </ContactInfo>
-            <CustomRating
-              name="professor-rating"
-              value={professorData.overall}
-              precision={0.5}
-              readOnly
-              disabled
-            />
-            <div>
-              <RateButton className="custom-rate-button" onClick={() => setOpen(true)}>
-                Rate Professor
-              </RateButton>
-            </div>
-          </ProfessorInfoContainer>
-        )}
-
-        <SecondDiv className="second-div">
-          <Typography variant="h6">Breakdown</Typography>
-
-          <div>
-            <p>Overall Rating</p>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <DisabledSlider value={professorData.rating} max={10} />
-              <span style={{ marginLeft: "10px", color: "black" }}>
-                {professorData.rating.toFixed(1)}/10
-              </span>
-            </div>
-          </div>
-          <div>
-            <p>Coursework</p>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <DisabledSlider value={professorData.coursework} max={10} />
-              <span style={{ marginLeft: "10px", color: "black" }}>
-                {professorData.coursework.toFixed(1)}/10
-              </span>
-            </div>
-          </div>
-          <div>
-            <p>Leniency</p>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <DisabledSlider value={professorData.leniency} max={10} />
-              <span style={{ marginLeft: "10px", color: "black" }}>
-                {professorData.leniency.toFixed(1)}/10
-              </span>
-            </div>
-          </div>
-        </SecondDiv>
-      </Container>
-
-      {isOpen && (
-        <div id="custom-modal-root" className="custom-modal-root">
-          <div 
-            style={{
-              width: '100%',
-              ...(window.innerWidth <= 768 &&{
-                width: '50%',
-                
-              }),
-            }}>
-          <Modal className="modal"
-            open={isOpen}
-            onClose={() => setOpen(false)}
-            professorId={professorId}
-          ></Modal>
-          </div>
-        </div>
-      )}
+      <Navbar />
       <div
-        style={{
-          width: "80%",
-          height: "3px",
-          margin: "0 auto",
-          backgroundColor: "black",
-        }}
-      ></div>
-      <CommentSection professorId={professorId} />
-    </div>
+        className={`container ${
+          isMobile ? "mobile-container" : "standard-container"
+        }`}
+      >
+        <Container className="content-container">
+          {isLoading ? (
+            <p>Loading...</p>
+          ) : (
+            <ProfessorInfoContainer className="professor-info-container">
+              <Typography variant="h4">{professorData.name}</Typography>
+              <Typography variant="h6">{professorData.role}</Typography>
+              <ContactInfo>
+                <Typography variant="body1">9420161800</Typography>
+                <Separator>|</Separator>
+                <Typography variant="body1">{professorData.email}</Typography>
+              </ContactInfo>
+              <CustomRating
+                name="professor-rating"
+                value={professorData.overall}
+                precision={0.5}
+                readOnly
+                disabled
+              />
+              <div>
+                <RateButton
+                  className="custom-rate-button"
+                  onClick={() => setOpen(true)}
+                >
+                  Rate Professor
+                </RateButton>
+              </div>
+            </ProfessorInfoContainer>
+          )}
+
+          <SecondDiv className="second-div">
+            <Typography variant="h6">Breakdown</Typography>
+
+            <div>
+              <p>Overall Rating</p>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <DisabledSlider value={professorData.rating} max={10} />
+                <span style={{ marginLeft: "10px", color: "black" }}>
+                  {professorData.rating.toFixed(1)}/10
+                </span>
+              </div>
+            </div>
+            <div>
+              <p>Coursework</p>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <DisabledSlider value={professorData.coursework} max={10} />
+                <span style={{ marginLeft: "10px", color: "black" }}>
+                  {professorData.coursework.toFixed(1)}/10
+                </span>
+              </div>
+            </div>
+            <div>
+              <p>Leniency</p>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <DisabledSlider value={professorData.leniency} max={10} />
+                <span style={{ marginLeft: "10px", color: "black" }}>
+                  {professorData.leniency.toFixed(1)}/10
+                </span>
+              </div>
+            </div>
+          </SecondDiv>
+        </Container>
+
+        {isOpen && (
+          <div id="custom-modal-root" className="custom-modal-root">
+            <div
+              style={{
+                width: "100%",
+                ...(window.innerWidth <= 768 && {
+                  width: "50%",
+                }),
+              }}
+            >
+              <Modal
+                className="modal"
+                open={isOpen}
+                onClose={() => setOpen(false)}
+                professorId={professorId}
+                profName={professorData.name}
+              ></Modal>
+            </div>
+          </div>
+        )}
+        <div
+          style={{
+            width: "80%",
+            height: "3px",
+            margin: "0 auto",
+            backgroundColor: "black",
+          }}
+        ></div>
+        <CommentSection professorId={professorId} />
+      </div>
     </>
   );
 };
