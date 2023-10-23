@@ -1,12 +1,7 @@
-import React, { useEffect } from "react";
-import {
-  getAuth,
-  OAuthProvider,
-  signInWithPopup,
-  onAuthStateChanged,
-} from "firebase/auth";
-import "./LoginPage.css";
+import React from "react";
+import { getAuth, OAuthProvider, signInWithPopup } from "firebase/auth";
 import { useHistory } from "react-router-dom";
+import "./LoginPage.css";
 
 const GoogleAuth = () => {
   const history = useHistory();
@@ -18,6 +13,7 @@ const GoogleAuth = () => {
       const provider = new OAuthProvider("google.com");
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
+
       if (user) {
         const email = user.email;
         if (email && email.endsWith("@student.nitw.ac.in")) {
@@ -33,7 +29,9 @@ const GoogleAuth = () => {
                 },
               }
             );
+
             if (response.ok) {
+              const data = await response.json();
               history.push("/HomePage");
             } else {
               history.push("/registerprofile");
@@ -50,15 +48,6 @@ const GoogleAuth = () => {
     }
   };
 
-  useEffect(() => {
-    const auth = getAuth();
-    if (auth.currentUser) {
-      history.push("/HomePage");
-    }
-    onAuthStateChanged(auth, (user) => {
-      if (user) history.push("/HomePage");
-    });
-  });
   return (
     <div className="login-container">
       <div className="blue-background">
@@ -81,7 +70,7 @@ const GoogleAuth = () => {
           Sign in with Google
         </button>
         <div className="student-mail-para">
-          <p1>Use your student mail only</p1>
+          <p>Use your student mail only</p>
         </div>
       </div>
     </div>

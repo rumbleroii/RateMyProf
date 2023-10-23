@@ -16,6 +16,6 @@ const firebaseConfig = {
   projectId: "ig-rmp",
   storageBucket: "ig-rmp.appspot.com",
   messagingSenderId: "817408427902",
-  appId: "1:817408427902:web:e7d4e3a5e3c857e735952f"
+  appId: "1:817408427902:web:e7d4e3a5e3c857e735952f",
 };
 export default firebaseConfig;

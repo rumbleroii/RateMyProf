@@ -38,10 +38,6 @@ function UserProfile() {
       if (response.ok) {
         fetchUserComments(userToken);
       } else {
-        console.log({
-          professorId: comment.professorId,
-          commentId: comment.id,
-        });
         console.error("Failed to delete the comment");
       }
     } catch (error) {
@@ -62,30 +58,27 @@ function UserProfile() {
       );
       if (response.ok) {
         const data = await response.json();
+        setUserDetails(data.user);
         setUserComments(data.comments);
-        console.log(data);
-        setLoading(false);
       } else {
         console.error("Error fetching user comments");
-        setUserComments([]);
-        setLoading(false);
       }
     } catch (error) {
       console.error("Error fetching user comments:", error);
-      setUserComments([]);
+    } finally {
       setLoading(false);
     }
   };
 
   const { data } = useApi("/profile-me?comments=true");
+
   useEffect(() => {
     if (data) {
       setUserDetails(data.user);
       setUserComments(data.comments);
-      console.log({ data });
       setLoading(false);
     }
-  }, [history]);
+  }, [data]);
 
   return (
     <>

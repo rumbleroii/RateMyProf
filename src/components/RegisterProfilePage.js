@@ -63,6 +63,7 @@ const RegisterProfilePage = () => {
   const [selectedBranch, setSelectedBranch] = useState(branches[0]);
   const [selectedYear, setSelectedYear] = useState(yearsOfStudy[0]);
   const history = useHistory();
+  const auth = getAuth();
   const saveProfileData = async () => {
     const profileData = {
       name,
@@ -72,10 +73,6 @@ const RegisterProfilePage = () => {
     };
 
     try {
-      const auth = getAuth();
-      if (!auth) {
-        history.push("/");
-      }
       console.log(profileData);
       const response = await fetch(
         `${process.env.REACT_APP_API_ID}/profile-register`,
