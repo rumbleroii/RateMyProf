@@ -8,12 +8,7 @@
     width: 30%;
     border-radius: 20px;
   }
-  
-  .content-container {
-    /* Additional styles for the content container */
-  }
-  
-  
+    
   .mobile-container {
     display: flex;
   flex-direction: column;
