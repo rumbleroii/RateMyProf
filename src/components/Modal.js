@@ -137,6 +137,7 @@ const Modal = ({
                 setComment(e.target.value);
                 setIsCommentValid(e.target.value.length >= 30);
               }}
+              
             ></TextField>
           </div>
 

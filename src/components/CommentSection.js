@@ -138,7 +138,7 @@ const CommentSection = ({ professorId }) => {
               {new Date(parseInt(comment.timestamp)).toLocaleString()}
             </Typography>
           </div>
-          <Typography variant="body1" style={{ margin: "10px 0" }}>
+          <Typography variant="body1" style={{ margin: "10px 0", whiteSpace: "pre-line", overflow: "hidden", textOverflow: "ellipsis" }}>
             {comment.commentText}
           </Typography>
           <div
