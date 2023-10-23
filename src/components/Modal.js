@@ -12,7 +12,13 @@ import {
 import { useApi } from "../utils/api";
 import { getAuth } from "firebase/auth";
 
-const Modal = ({ open, onClose, professorId, onCommentSubmitted }) => {
+const Modal = ({
+  open,
+  onClose,
+  professorId,
+  profName,
+  onCommentSubmitted,
+}) => {
   const [anonymous, setAnonymous] = useState(false);
   const [comment, setComment] = useState("");
   const [rating, setRating] = useState(5);
@@ -77,7 +83,7 @@ const Modal = ({ open, onClose, professorId, onCommentSubmitted }) => {
               padding: "10px 0 0 0",
             }}
           >
-            Professor Kishore Ravi Kumar
+            {profName}
           </DialogTitle>
 
           <div className="anonymous-switch">
