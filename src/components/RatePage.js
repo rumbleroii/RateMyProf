@@ -4,11 +4,15 @@ import CommentSection from "./CommentSection";
 import Modal from "./Modal";
 import { Button, Typography, Slider, Paper } from "@mui/material";
 import { styled } from "@mui/system";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import Rating from "@mui/material/Rating";
+import './RatePage.css';
 import { useLocation } from "react-router-dom";
 import { getAuth } from "firebase/auth";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { useApi } from "../utils/api";
+
+
 
 const CustomRating = styled(Rating)(({ theme }) => ({
   fontSize: "50px",
@@ -81,6 +85,7 @@ const DisabledSlider = styled(Slider)(({ theme }) => ({
   cursor: "default",
 }));
 const RatePage = () => {
+  const isMobile = useMediaQuery("(max-width:768px)");
   const [isOpen, setOpen] = useState(false);
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -122,13 +127,15 @@ const RatePage = () => {
   }, [professorId, data ]);
 
   return (
-    <div>
-      <Navbar />
-      <Container>
+    <>
+    <Navbar />
+    <div className={`container ${isMobile ? 'mobile-container' : 'standard-container'}`}>
+      
+      <Container className="content-container">
         {isLoading ? (
           <p>Loading...</p>
         ) : (
-          <ProfessorInfoContainer>
+          <ProfessorInfoContainer className="professor-info-container">
             <Typography variant="h4">{professorData.name}</Typography>
             <Typography variant="h6">{professorData.role}</Typography>
             <ContactInfo>
@@ -144,14 +151,14 @@ const RatePage = () => {
               disabled
             />
             <div>
-              <RateButton onClick={() => setOpen(true)}>
+              <RateButton className="custom-rate-button" onClick={() => setOpen(true)}>
                 Rate Professor
               </RateButton>
             </div>
           </ProfessorInfoContainer>
         )}
 
-        <SecondDiv>
+        <SecondDiv className="second-div">
           <Typography variant="h6">Breakdown</Typography>
 
           <div>
@@ -185,12 +192,14 @@ const RatePage = () => {
       </Container>
 
       {isOpen && (
-        <div id="custom-modal-root">
+        <div id="custom-modal-root" className="custom-modal-root">
+          <div className="custom-modal-content">
           <Modal
             open={isOpen}
             onClose={() => setOpen(false)}
             professorId={professorId}
           ></Modal>
+          </div>
         </div>
       )}
       <div
@@ -203,6 +212,7 @@ const RatePage = () => {
       ></div>
       <CommentSection professorId={professorId} />
     </div>
+    </>
   );
 };
 

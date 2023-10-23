@@ -25,13 +25,13 @@
     margin-top: 20px;
   }
   
-  /* Styling for the search label */
+  
   .search-bar-container label {
     margin-right: 10px;
 
   }
   
-  /* Styling for the search input */
+  
   .search-bar{
     padding: 0px;
     border: 1px solid #999999;
@@ -70,6 +70,34 @@
 
 .load-more-button:hover {
   background-color: #005bb7; 
+}
+
+@media (max-width: 600px) {
+  .nit-title {
+    font-size: 3em; 
+  }
+  .selected-department{
+    font-size: 20px;
+    
+  }
+  .homepage .search-bar-container {
+    margin-left: 20px;
+    margin-right: 20px; 
+  }
+
+  .search-bar {
+    width: 100%; 
+    margin-left: 20px;
+  }
+
+  .dropdown-container {
+    margin-left: 20px;
+    margin-right: 20px; 
+  }
+
+  .load-more-button {
+    margin: 20px auto; 
+  }
 }
   
   

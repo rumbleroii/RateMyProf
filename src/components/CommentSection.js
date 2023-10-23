@@ -116,7 +116,7 @@ const CommentSection = ({ professorId }) => {
           key={comment.id}
           elevation={3}
           style={{
-            background: "#f0f0f0",
+            background: "#ffff",
             margin: "10px 0",
             padding: "10px",
             marginTop: "20px",

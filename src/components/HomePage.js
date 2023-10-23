@@ -68,11 +68,14 @@ function HomePage() {
     })
     .slice(startIndex, endIndex);
 
+  
+
   return (
     <div className="homepage">
       <Navbar />
 
       <h1 className="nit-title">NITW</h1>
+      
       <div className="dropdown-container">
         <FormControl variant="outlined" fullWidth>
           <InputLabel>Select a Department:</InputLabel>

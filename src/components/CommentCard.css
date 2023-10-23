@@ -31,11 +31,36 @@
     text-decoration: none;
     font-weight: bold;
     position: absolute;
-    bottom: 10px; /* Adjust the position from the bottom */
-    right: 10px; /* Adjust the position from the right */
+    bottom: 10px;
+    right: 10px;
   }
   
   .Comment-card .delete-button:hover {
     background-color: #6e0101;
+  }
+
+  @media (max-width: 768px) {
+    .Comment-card {
+      margin: 10px;
+      margin-left: 0px;
+      margin-right: 0px;
+    }
+    .Comment-card h5 {
+      font-size: medium;
+      margin: 0;
+      color: rgb(73, 73, 73);
+    }
+    .Comment-card p {
+      margin: 5px 0;
+      color: rgb(73, 73, 73);
+      font-size: small;
+    }
+  
+    .Comment-card .delete-button {
+      position: static;
+      width: 30%;
+      margin-top: 10px;
+      padding: 3px 10x;
+    }
   }
   

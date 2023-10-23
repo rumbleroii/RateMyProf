@@ -43,3 +43,26 @@
     background-color:#005bb7
   }
   
+  @media screen and (max-width: 600px) {
+    .professor-card {
+      width: 83%; 
+      margin-left: 10px;
+      
+    }
+    .professor-card h3 {
+      font-size: 1 rem;
+      margin: 0;
+      color:rgb(73, 73, 73);
+    }
+    
+    .professor-card p {
+      margin: 5px 0;
+      color: rgb(73, 73, 73);
+      font-size: small;
+      font-weight: 300;
+    }
+    .professor-card .rate-button {
+      width: 30%; 
+      padding: 3px 10px;
+    }
+  }
