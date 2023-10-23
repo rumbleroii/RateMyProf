@@ -50,5 +50,22 @@
       justify-content: center;
       align-items: center;
     }
+    @media (max-width: 768px) {
+      .login-container {
+        flex-direction: column;
+        
+      }
+      .blue-background{
+        width: 100%;
+        padding: 10px;
+      }
+      .google-sign-in {
+        width: 100%; 
+      }
+    
+      .rate-my-prof-title {
+        font-size: 2.5rem; 
+      }
+    }
     
 

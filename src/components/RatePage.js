@@ -193,8 +193,15 @@ const RatePage = () => {
 
       {isOpen && (
         <div id="custom-modal-root" className="custom-modal-root">
-          <div className="custom-modal-content">
-          <Modal
+          <div 
+            style={{
+              width: '100%',
+              ...(window.innerWidth <= 768 &&{
+                width: '50%',
+                
+              }),
+            }}>
+          <Modal className="modal"
             open={isOpen}
             onClose={() => setOpen(false)}
             professorId={professorId}
