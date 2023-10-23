@@ -58,14 +58,14 @@
         margin-left: 0px; 
     }
     .custom-modal-root {
-      justify-content: flex-start; /* Align modal to the top of the screen */
-      padding: 10px; /* Add some spacing around the modal */
+      justify-content: flex-start; 
+      padding: 10px; 
     }
   
     .custom-modal-content {
-      width: 100%; /* Take up full width of the screen */
-      border-radius: 0; /* Remove border radius for a more mobile look */
-      box-shadow: none; /* Remove box shadow for a flatter look */
+      width: 100%;
+      border-radius: 0; 
+      box-shadow: none; 
     }
   
     .modal {

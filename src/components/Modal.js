@@ -131,6 +131,7 @@ const Modal = ({ open, onClose, professorId, onCommentSubmitted }) => {
                 setComment(e.target.value);
                 setIsCommentValid(e.target.value.length >= 30);
               }}
+              
             ></TextField>
           </div>
 

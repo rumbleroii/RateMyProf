@@ -38,3 +38,29 @@
 .sliders {
     margin-top : 30px;
 }
+
+@media (max-width: 768px) {
+    .modalpop {
+      width: 80%; 
+      height: auto;
+      margin-right: 20%;
+      left: 50%;
+      right: 0%;
+      
+    }
+    .close-button {
+      right: 10px; 
+      top: 5px; 
+    }
+  
+  
+  .slider-container {
+    width: 90%;
+    margin: 0 auto; 
+  }
+  
+  .sliders {
+    margin-top: 0px; 
+    height: 20;
+  }
+}
