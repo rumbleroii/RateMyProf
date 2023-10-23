@@ -12,13 +12,15 @@ import UserProfile from "./components/ProfilePage";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { useApi } from "./utils/api";
 import { useHistory } from "react-router-dom/cjs/react-router-dom";
+import { createBrowserHistory } from "history";
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const history = createBrowserHistory();
 
 function App() {
   return (
-    <AuthProvider>
+    <AuthProvider history={history}>
       <Router>
         <Switch>
           <ProtectedRoute path="/homepage" component={HomePage} />

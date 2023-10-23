@@ -25,7 +25,8 @@ function useApi(path, options) {
   const history = useHistory();
 
   const handleRedirect = (statusCode) => {
-    history.push("/");
+    if (statusCode == 403) history.push("/");
+    else if (statusCode == 422) history.push("/registerprofile");
   };
 
   const {
@@ -38,7 +39,9 @@ function useApi(path, options) {
     {
       onError: (error) => {
         if (error.message === "403") {
-          handleRedirect(error);
+          handleRedirect(403);
+        } else if (error.message === "422") {
+          handleRedirect(422);
         }
       },
     }
