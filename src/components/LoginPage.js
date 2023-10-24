@@ -29,7 +29,6 @@ const GoogleAuth = () => {
                 },
               }
             );
-
             if (response.ok) {
               const data = await response.json();
               history.push("/HomePage");

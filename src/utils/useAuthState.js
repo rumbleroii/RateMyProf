@@ -14,11 +14,12 @@ export default function useAuthState(auth, history) {
   useEffect(() => {
     const listener = auth.onAuthStateChanged(async (user) => {
       if (user) {
-        console.log(await auth.currentUser.getIdToken());
+        const idToken = await auth.currentUser.getIdToken();
+        console.log({ idToken });
         setAuth(auth);
+      } else {
+        setAuth(undefined);
       }
-      setAuth(undefined);
-      console.log({ user });
     }, setError);
 
     return () => {

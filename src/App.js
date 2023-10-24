@@ -20,7 +20,7 @@ function App() {
       <Router>
         <Switch>
           <ProtectedRoute path="/homepage" component={HomePage} />
-          <ProtectedRoute
+          <Route
             path="/RegisterProfile"
             component={RegisterProfilePage}
           />

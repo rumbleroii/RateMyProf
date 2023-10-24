@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar.js";
 import {
   Button,
@@ -12,6 +12,7 @@ import {
 import { styled } from "@mui/system";
 import { useHistory } from "react-router-dom";
 import { getAuth } from "firebase/auth";
+import { useAuth } from "../context/AuthContext.js";
 
 const branches = [
   "CSE",
@@ -62,6 +63,7 @@ const RegisterProfilePage = () => {
   const [rollNumber, setrollNumber] = useState("");
   const [selectedBranch, setSelectedBranch] = useState(branches[0]);
   const [selectedYear, setSelectedYear] = useState(yearsOfStudy[0]);
+  const { user, loading } = useAuth();
   const history = useHistory();
   const auth = getAuth();
   const saveProfileData = async () => {
@@ -101,6 +103,12 @@ const RegisterProfilePage = () => {
     saveProfileData();
   };
 
+  useEffect(() => {
+    console.log("rr", { user, loading });
+    if (!user && !loading) {
+      history.push("/");
+    }
+  }, [user, loading, history]);
   return (
     <>
       <Navbar />

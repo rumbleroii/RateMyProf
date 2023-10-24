@@ -9,7 +9,7 @@ export function useAuth() {
 
 export function AuthProvider({ auth, children }) {
   const { user, loading, error, setUser } = useAuthState(auth);
-
+  console.log({ user, loading });
   const value = {
     user,
     loading,
