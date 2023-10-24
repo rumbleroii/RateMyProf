@@ -11,7 +11,7 @@ import { useApi } from "../utils/api";
 const CommentSection = ({ professorId }) => {
   const [comments, setComments] = useState([]);
 
-  const { data, loading, error } = useApi(`/comments-get?id=${professorId}`);
+  const { data } = useApi(`/comments-get?id=${professorId}`);
   useEffect(() => {
     if (data) setComments(data.professor.comments);
   }, [professorId, data]);
@@ -90,7 +90,7 @@ const CommentSection = ({ professorId }) => {
             Authorization: `Bearer ${await auth.currentUser.getIdToken()}`,
           },
           body: JSON.stringify({
-            upvote: false,
+            downvote: true,
             commentId: commentId,
           }),
         }
@@ -107,7 +107,7 @@ const CommentSection = ({ professorId }) => {
 
   useEffect(() => {
     fetchComments();
-  }, [professorId, history]);
+  });
 
   return (
     <div style={{ width: "80%", margin: "0 auto" }}>
@@ -138,7 +138,15 @@ const CommentSection = ({ professorId }) => {
               {new Date(parseInt(comment.timestamp)).toLocaleString()}
             </Typography>
           </div>
-          <Typography variant="body1" style={{ margin: "10px 0", whiteSpace: "pre-line", overflow: "hidden", textOverflow: "ellipsis" }}>
+          <Typography
+            variant="body1"
+            style={{
+              margin: "10px 0",
+              whiteSpace: "pre-line",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
+          >
             {comment.commentText}
           </Typography>
           <div

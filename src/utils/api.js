@@ -3,7 +3,9 @@ import { useAuth } from "../context/AuthContext";
 import { useHistory } from "react-router-dom";
 
 const fetcher = (user) => async (url, options) => {
-  const token = await user.currentUser.getIdToken();
+  const token = await user.currentUser.getIdToken().catch((error) => {
+    throw new Error("403");
+  });
   options = {
     headers: {
       ...options?.headers,
@@ -25,8 +27,8 @@ function useApi(path, options) {
   const history = useHistory();
 
   const handleRedirect = (statusCode) => {
-    if (statusCode == 403) history.push("/");
-    else if (statusCode == 422) history.push("/registerprofile");
+    if (statusCode === 403) history.push("/");
+    else if (statusCode === 422) history.push("/registerprofile");
   };
 
   const {
