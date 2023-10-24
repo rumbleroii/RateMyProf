@@ -105,9 +105,6 @@ const CommentSection = ({ professorId }) => {
     }
   };
 
-  useEffect(() => {
-    fetchComments();
-  });
 
   return (
     <div style={{ width: "80%", margin: "0 auto" }}>
